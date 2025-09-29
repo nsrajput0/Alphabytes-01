@@ -587,7 +587,6 @@ a:hover {
 .quiz-question {
   margin-bottom: 1.1em;
 }
-/* ...existing code... */
 #stars-bg {
   position: fixed;
   top: 0;
@@ -598,7 +597,6 @@ a:hover {
   pointer-events: none;
   background: transparent;
 }
-/* ...existing code... */
 
 .quiz-question label {
   display: block;
@@ -743,5 +741,41 @@ body::before {
   .nasa-logo-fixed img {
     width: 40px;
     height: 40px;
+  }
+}
+
+.study-media {
+  width: 100%;
+  margin-bottom: 2em;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2em;
+  justify-content: center;
+}
+.study-media-item {
+  max-width: 340px;
+  flex: 1 1 220px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.study-media-item img,
+.study-media-item iframe {
+  width: 100%;
+  max-width: 320px;
+  border-radius: 1em;
+  box-shadow: 0 2px 12px #0003;
+  margin-bottom: 0.7em;
+}
+@media (max-width: 700px) {
+  .study-media {
+    flex-direction: column;
+    gap: 1.2em;
+    align-items: center;
+  }
+  .study-media-item img,
+  .study-media-item iframe {
+    max-width: 98vw;
+    height: auto;
   }
 }

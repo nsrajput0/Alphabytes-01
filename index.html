@@ -7,6 +7,17 @@
   <link rel="stylesheet" href="style.css">
   <!-- Leaflet CSS -->
   <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+  <style>
+    /* Add this in <head> or your CSS file for better dropdown positioning */
+    nav ul .dropdown {
+      position: relative;
+    }
+    nav ul .dropdown-menu {
+      min-width: 140px;
+      left: 0;
+      top: 100%;
+    }
+  </style>
 </head>
   <body>
   <!-- Rocket Launch Animation Overlay -->
@@ -29,7 +40,16 @@
         <li><a href="#" data-section="home" class="nav-link active">Home</a></li>
         <li><a href="#" data-section="dashboard" class="nav-link">Dashboard</a></li>
         <li><a href="#" data-section="solar-system" class="nav-link">Solar System</a></li>
-        <li><a href="#" data-section="study" class="nav-link">Study NASA</a></li>
+        <!-- Dropdown for Study NASA -->
+        <li class="dropdown">
+          <a href="#" data-section="study" class="nav-link">Study NASA ▼</a>
+          <ul class="dropdown-menu" style="display:none;position:absolute;background:#1a2233;padding:1em;border-radius:8px;z-index:10;">
+            <li style="padding: 0.4rem 0"><a href="#" class="study-dropdown-link" data-study="history" >Our History</a></li>
+            <li style="padding: 0.4rem 0"><a href="#" class="study-dropdown-link" data-study="wins">Achievements</a></li>
+            <li style="padding: 0.4rem 0"><a href="#" class="study-dropdown-link" data-study="losses">Our failures</a></li>
+
+          </ul>
+        </li>
         <li><a href="#" data-section="quiz" class="nav-link">Quiz</a></li>
         <li><a href="#" data-section="about" class="nav-link">About</a></li>
       </ul> 
@@ -120,153 +140,197 @@
     <!-- Study NASA Section -->
     <section id="study" class="main-section" style="display:none;">
       <h2>Study NASA</h2>
+      <!-- Dropdown section selector -->
+      <div style="margin-bottom:1em;">
+        <button class="study-section-btn" data-study="history">History</button>
+        <button class="study-section-btn" data-study="wins">Wins</button>
+        <button class="study-section-btn" data-study="losses">Losses</button>
+      </div>
       <div class="study-content">
-        
-        <div class="study-info">
-          <h3>History of NASA</h3>
-          <p>
-            🚀 The Complete History of NASA <br>
-
-🌍 Origins <br>
-
-Founded: July 29, 1958 (by National Aeronautics and Space Act). <br>
-
-Reason: Cold War tensions & the USSR’s launch of Sputnik 1 (1957). <br>
-
-Predecessor: NACA (National Advisory Committee for Aeronautics, founded in 1915). <br>
-
-Official Start: October 1, 1958. <br><br>
-
-
-👉 First Administrator: Dr. T. Keith Glennan <br>
-👉 Motto: “For the Benefit of All.” <br> <br> <br>
-
-
----
-<br>
-🧑‍🚀 The Space Race Era (1958–1969) <br>
-
-Project Mercury (1959–63): <br>
-
-Goal → Send first Americans into space. <br>
-
-1961: Alan Shepard → 1st American in space. <br>
-
-1962: John Glenn → 1st American to orbit Earth. <br><br>
-
-
-Project Gemini (1961–66): <br>
-
-Practiced spacewalks, docking, and long-duration flights. <br>
-
-Helped prepare astronauts for the Moon. <br>
-
-
-Apollo Program (1961–72): <br>
-
-Announced by President John F. Kennedy (1961): “We choose to go to the Moon.” <br>
-
-Apollo 8 (1968): 1st crewed spacecraft to orbit the Moon. <br>
-
-Apollo 11 (1969): Neil Armstrong & Buzz Aldrin walked on the Moon. <br>
-
-Six Moon landings in total (Apollo 11–17, except 13 due to in-flight emergency). <br> <br><br>
-
-
-
-
---- <br>
-
-🛰️ Post-Apollo Achievements (1970s–1980s) <br>
-
-Skylab (1973–79): America’s first space station. <br>
-
-Apollo-Soyuz Test Project (1975): First U.S.–Soviet joint mission → symbol of peace. <br>
-
-Voyager Probes (1977): Sent to study outer planets (still sending signals today 🌌). <br>
-
-Space Shuttle Program (1981–2011): <br>
-
-Reusable spacecraft (Columbia, Challenger, Discovery, Atlantis, Endeavour). <br>
-
-Challenger disaster (1986) → Shuttle exploded after launch. <br>
-
-Revolutionized satellite deployment & ISS construction. <br><br><br>
-
-
-
-
---- <br>
-
-🌌 The Modern Space Age (1990s–2000s) <br>
-
-Hubble Space Telescope (1990): Gave breathtaking deep-space images. <br>
-
-International Space Station (1998–Present): Built by NASA + Russia + partners. <br>
-
-Mars Exploration Rovers (2003): Spirit & Opportunity explored the Red Planet. <br>
-
-Columbia Disaster (2003): Shuttle disintegrated on re-entry → 7 astronauts lost. <br><br><br>
-
-
-
---- <br>
-
-✨ The New Era (2010s–Present) <br>
-
-Curiosity Rover (2012): Landed on Mars with advanced science lab. <br>
-
-New Horizons (2015): Flyby mission → first detailed images of Pluto. <br>
-
-Perseverance Rover (2021): Searching for signs of ancient life on Mars. <br>
-
-James Webb Space Telescope (2021): Most powerful telescope ever launched. <br>
-
-Commercial Partnerships: Collaborating with SpaceX, Blue Origin, Boeing, etc. <br>
-
-Artemis Program (Ongoing): <br>
-
-Goal → Return astronauts to the Moon by mid-2020s. <br>
-
-Special focus: First woman and first person of color on the Moon. <br>
-
-Long-term → Use Moon as base for Mars missions. <br><br><br>
-
-
-
-
---- <br>
-
-📍 Fun Facts about NASA <br>
-
-Budget (2024): ~$25 billion. <br>
-
-NASA inventions used in daily life: memory foam, scratch-resistant lenses, water filters, cordless tools, freeze-dried food. <br>
-
-NASA’s motto: “Explore. Discover. Understand.” <br>
-
-NASA has 10 major research centers across the U.S. (e.g., Kennedy Space Center, Johnson Space Center, Jet Propulsion Laboratory). <br><br><br>
-
-
-
---- <br>
-
-👉 In short, NASA’s journey is like this: <br>
-Sputnik shock → Mercury rockets → Apollo Moon landing → Space Shuttle & ISS → Mars rovers & Hubble → Artemis & Webb for the future🌌✨
-          </p>
+        <!-- History Section -->
+        <div id="study-history" class="study-subsection">
+          <div class="study-media" style="width:100%;margin-bottom:2em;display:flex;flex-wrap:wrap;gap:2em;justify-content:center;">
+            <!-- Add your NASA videos and photos below -->
+            <!-- Example: 
+            <div class="study-media-item">
+              <img src="your-nasa-photo.jpg" alt="NASA Mission" style="max-width:320px;border-radius:1em;box-shadow:0 2px 12px #0003;">
+            </div>
+            <div class="study-media-item">
+              <iframe width="320" height="180" src="https://www.youtube.com/embed/VIDEO_ID" frameborder="0" allowfullscreen style="border-radius:1em;box-shadow:0 2px 12px #0003;"></iframe>
+            </div>
+            -->
           </div>
-        <div class="study-info">
+          <div class="study-info">
+            <h3>History of NASA</h3>
+            <p>
+              🚀 The Complete History of NASA <br>
 
-        
-        <div class="study-links">
-          <h3>Learn More</h3>
-          <ul>
-            <li><a href="https://www.nasa.gov/" target="_blank">NASA Official Website</a></li>
-            <li><a href="https://science.nasa.gov/" target="_blank">NASA Science</a></li>
-            <li><a href="https://www.nasa.gov/missions" target="_blank">NASA Missions</a></li>
-            <li><a href="https://www.nasa.gov/kidsclub/index.html" target="_blank">NASA Kids' Club</a></li>
-          </ul>
-        </div></div>
+  🌍 Origins <br>
+
+  Founded: July 29, 1958 (by National Aeronautics and Space Act). <br>
+
+  Reason: Cold War tensions & the USSR’s launch of Sputnik 1 (1957). <br>
+
+  Predecessor: NACA (National Advisory Committee for Aeronautics, founded in 1915). <br>
+
+  Official Start: October 1, 1958. <br><br>
+
+
+  👉 First Administrator: Dr. T. Keith Glennan <br>
+  👉 Motto: “For the Benefit of All.” <br> <br> <br>
+
+
+  ---
+  <br>
+  🧑‍🚀 The Space Race Era (1958–1969) <br>
+
+  Project Mercury (1959–63): <br>
+
+  Goal → Send first Americans into space. <br>
+
+  1961: Alan Shepard → 1st American in space. <br>
+
+  1962: John Glenn → 1st American to orbit Earth. <br><br>
+
+
+  Project Gemini (1961–66): <br>
+
+  Practiced spacewalks, docking, and long-duration flights. <br>
+
+  Helped prepare astronauts for the Moon. <br>
+
+
+  Apollo Program (1961–72): <br>
+
+  Announced by President John F. Kennedy (1961): “We choose to go to the Moon.” <br>
+
+  Apollo 8 (1968): 1st crewed spacecraft to orbit the Moon. <br>
+
+  Apollo 11 (1969): Neil Armstrong & Buzz Aldrin walked on the Moon. <br>
+
+  Six Moon landings in total (Apollo 11–17, except 13 due to in-flight emergency). <br> <br><br>
+
+
+
+
+  --- <br>
+
+  🛰️ Post-Apollo Achievements (1970s–1980s) <br>
+
+  Skylab (1973–79): America’s first space station. <br>
+
+  Apollo-Soyuz Test Project (1975): First U.S.–Soviet joint mission → symbol of peace. <br>
+
+  Voyager Probes (1977): Sent to study outer planets (still sending signals today 🌌). <br>
+
+  Space Shuttle Program (1981–2011): <br>
+
+  Reusable spacecraft (Columbia, Challenger, Discovery, Atlantis, Endeavour). <br>
+
+  Challenger disaster (1986) → Shuttle exploded after launch. <br>
+
+  Revolutionized satellite deployment & ISS construction. <br><br><br>
+
+
+
+
+  --- <br>
+
+  🌌 The Modern Space Age (1990s–2000s) <br>
+
+  Hubble Space Telescope (1990): Gave breathtaking deep-space images. <br>
+
+  International Space Station (1998–Present): Built by NASA + Russia + partners. <br>
+
+  Mars Exploration Rovers (2003): Spirit & Opportunity explored the Red Planet. <br>
+
+  Columbia Disaster (2003): Shuttle disintegrated on re-entry → 7 astronauts lost. <br><br><br>
+
+
+
+  --- <br>
+
+  ✨ The New Era (2010s–Present) <br>
+
+  Curiosity Rover (2012): Landed on Mars with advanced science lab. <br>
+
+  New Horizons (2015): Flyby mission → first detailed images of Pluto. <br>
+
+  Perseverance Rover (2021): Searching for signs of ancient life on Mars. <br>
+
+  James Webb Space Telescope (2021): Most powerful telescope ever launched. <br>
+
+  Commercial Partnerships: Collaborating with SpaceX, Blue Origin, Boeing, etc. <br>
+
+  Artemis Program (Ongoing): <br>
+
+  Goal → Return astronauts to the Moon by mid-2020s. <br>
+
+  Special focus: First woman and first person of color on the Moon. <br>
+
+  Long-term → Use Moon as base for Mars missions. <br><br><br>
+
+
+
+
+  --- <br>
+
+  📍 Fun Facts about NASA <br>
+
+  Budget (2024): ~$25 billion. <br>
+
+  NASA inventions used in daily life: memory foam, scratch-resistant lenses, water filters, cordless tools, freeze-dried food. <br>
+
+  NASA’s motto: “Explore. Discover. Understand.” <br>
+
+  NASA has 10 major research centers across the U.S. (e.g., Kennedy Space Center, Johnson Space Center, Jet Propulsion Laboratory). <br><br><br>
+
+
+
+  --- <br>
+
+  👉 In short, NASA’s journey is like this: <br>
+  Sputnik shock → Mercury rockets → Apollo Moon landing → Space Shuttle & ISS → Mars rovers & Hubble → Artemis & Webb for the future🌌✨
+            </p>
+            </div>
+          <div class="study-links">
+            <h3>Learn More</h3>
+            <ul>
+              <li><a href="https://www.nasa.gov/" target="_blank">NASA Official Website</a></li>
+              <li><a href="https://science.nasa.gov/" target="_blank">NASA Science</a></li>
+              <li><a href="https://www.nasa.gov/missions" target="_blank">NASA Missions</a></li>
+              <li><a href="https://www.nasa.gov/kidsclub/index.html" target="_blank">NASA Kids' Club</a></li>
+            </ul>
+          </div>
+        </div>
+        <!-- Wins Section -->
+        <div id="study-wins" class="study-subsection" style="display:none;">
+          <div class="study-info">
+            <h3>NASA Wins</h3>
+            <ul>
+              <li>Apollo 11 Moon landing (1969)</li>
+              <li>Voyager probes exploring outer planets</li>
+              <li>Hubble Space Telescope discoveries</li>
+              <li>Mars rovers (Spirit, Opportunity, Curiosity, Perseverance)</li>
+              <li>International Space Station collaboration</li>
+              <li>James Webb Space Telescope launch</li>
+              <li>Commercial partnerships (SpaceX, Artemis program)</li>
+            </ul>
+          </div>
+        </div>
+        <!-- Losses Section -->
+        <div id="study-losses" class="study-subsection" style="display:none;">
+          <div class="study-info">
+            <h3>NASA Losses</h3>
+            <ul>
+              <li>Challenger disaster (1986)</li>
+              <li>Columbia disaster (2003)</li>
+              <li>Apollo 13 mission failure (1970, no Moon landing)</li>
+              <li>Budget cuts and cancelled missions</li>
+              <li>Technical failures and launch delays</li>
+            </ul>
+          </div>
+        </div>
       </div>
     </section>
 
@@ -279,7 +343,6 @@ Sputnik shock → Mercury rockets → Apollo Moon landing → Space Shuttle & IS
         <button type="submit" id="quiz-submit">Submit Answers</button>
       </form>
       <div id="quiz-result"></div>
-      <button id="quiz-next-level" style="display:none;">Next Level</button>
     </section>
 
     <!-- About Section -->
@@ -549,6 +612,219 @@ Sputnik shock → Mercury rockets → Apollo Moon landing → Space Shuttle & IS
       }
       resizeSolarCanvas();
       window.addEventListener('resize', resizeSolarCanvas);
+    });
+  </script>
+  <script>
+  // Air Quality Summary Logic
+  function summarizeAirQuality(aqi) {
+    if (aqi === null || aqi === undefined) return "Unknown";
+    if (aqi <= 50) return "Good";
+    if (aqi <= 100) return "Moderate";
+    if (aqi <= 150) return "Unhealthy for Sensitive Groups";
+    if (aqi <= 200) return "Unhealthy";
+    if (aqi <= 300) return "Very Unhealthy";
+    return "Hazardous";
+  }
+
+  function updateAirQualitySection(aqi, details) {
+  var summary = summarizeAirQuality(aqi);
+  var color = aqi<=50?'#3ee07a':aqi<=100?'#ffd700':aqi<=150?'#e05c3e':'#d32f2f';
+  var content = `<div><b>Status:</b> <span style="color:${aqi ? color : '#888'}">${aqi ? summary : 'No data available'}</span></div>`;
+  if (details) content += `<div style="margin-top:0.5em;">${details}</div>`;
+  document.getElementById('air-quality-content').innerHTML = content;
+}
+
+  // Fetch air quality data using OpenAQ API and browser geolocation
+  function fetchAirQuality() {
+    if (!navigator.geolocation) {
+      updateAirQualitySection(null, "Location not available.");
+      return;
+    }
+    navigator.geolocation.getCurrentPosition(function(pos) {
+      var lat = pos.coords.latitude;
+      var lon = pos.coords.longitude;
+      // OpenAQ API for nearest measurements
+      fetch(`https://api.openaq.org/v2/latest?coordinates=${lat},${lon}&radius=10000&limit=1`)
+        .then(res => res.json())
+        .then(data => {
+          if (data.results && data.results.length > 0) {
+            var m = data.results[0].measurements;
+            var pm25 = m.find(x => x.parameter === "pm25");
+            var pm10 = m.find(x => x.parameter === "pm10");
+            var aqi = pm25 ? Math.round(pm25.value) : (pm10 ? Math.round(pm10.value) : null);
+            var details = "";
+            if (pm25) details += `PM2.5: ${pm25.value} ${pm25.unit}<br>`;
+            if (pm10) details += `PM10: ${pm10.value} ${pm10.unit}<br>`;
+            details += `Location: ${data.results[0].city || "Unknown"}`;
+            updateAirQualitySection(aqi, details);
+          } else {
+            updateAirQualitySection(null, "No air quality data found for your location.");
+          }
+        })
+        .catch(() => {
+          updateAirQualitySection(null, "Unable to fetch air quality data.");
+        });
+    }, function() {
+      updateAirQualitySection(null, "Location access denied.");
+    });
+  }
+
+  // Auto-fetch air quality on page load
+  window.addEventListener('DOMContentLoaded', fetchAirQuality);
+  </script>
+  <script>
+  // Dropdown menu logic for Study NASA nav
+  document.addEventListener('DOMContentLoaded', function() {
+    var dropdown = document.querySelector('.dropdown');
+    var dropdownMenu = dropdown.querySelector('.dropdown-menu');
+    var studySection = document.getElementById('study');
+    var mainSections = document.querySelectorAll('.main-section');
+    var studySubsections = document.querySelectorAll('.study-subsection');
+
+    // Helper: show only one study subsection
+    function showStudySubsection(name) {
+      studySubsections.forEach(function(sec) {
+        sec.style.display = 'none';
+      });
+      var section = document.getElementById('study-' + name);
+      if (section) section.style.display = '';
+    }
+
+    // Show dropdown on hover (desktop)
+    dropdown.addEventListener('mouseenter', function() {
+      dropdownMenu.style.display = 'block';
+    });
+    dropdown.addEventListener('mouseleave', function() {
+      dropdownMenu.style.display = 'none';
+    });
+
+    // Toggle dropdown on click (mobile)
+    dropdown.querySelector('.nav-link').addEventListener('click', function(e) {
+      e.preventDefault();
+      dropdownMenu.style.display = dropdownMenu.style.display === 'block' ? 'none' : 'block';
+    });
+
+    // Dropdown menu item click
+    dropdownMenu.querySelectorAll('.study-dropdown-link').forEach(function(link) {
+      link.addEventListener('click', function(e) {
+        e.preventDefault();
+        // Hide all main sections, show Study NASA
+        mainSections.forEach(function(sec) { sec.style.display = 'none'; });
+        studySection.style.display = '';
+        // Show correct subsection
+        showStudySubsection(link.getAttribute('data-study'));
+        // Hide dropdown
+        dropdownMenu.style.display = 'none';
+      });
+    });
+
+    // When Study NASA section is shown (from nav), default to History
+    document.querySelector('a[data-section="study"]').addEventListener('click', function(e) {
+      // Only run if not from dropdown menu
+      if (!e.target.classList.contains('study-dropdown-link')) {
+        mainSections.forEach(function(sec) { sec.style.display = 'none'; });
+        studySection.style.display = '';
+        showStudySubsection('history');
+        dropdownMenu.style.display = 'none';
+        e.preventDefault();
+      }
+    });
+
+    // Button selector logic inside Study NASA section
+    document.querySelectorAll('.study-section-btn').forEach(function(btn) {
+      btn.addEventListener('click', function() {
+        showStudySubsection(btn.getAttribute('data-study'));
+      });
+    });
+
+    // On page load, default to showing History subsection if Study NASA is shown
+    if (studySection.style.display !== 'none') {
+      showStudySubsection('history');
+    }
+  });
+  </script>
+  <script>
+    // Quiz section: use APOD paragraph for quiz
+    document.addEventListener('DOMContentLoaded', function() {
+      fetch('https://api.nasa.gov/planetary/apod?api_key=Vt29Ma0AF0QNw8kbzKlbFH0vmtYMSBGgHG3rZJab')
+        .then(res => res.json())
+        .then(data => {
+          document.getElementById('quiz-paragraph').textContent = data.explanation;
+
+          // Generate quiz questions from APOD data
+          var questions = [
+            {
+              q: "What is the title of today's Astronomy Picture of the Day?",
+              options: [data.title, "Milky Way", "Mars Rover", "Hubble Deep Field"],
+              answer: 0
+            },
+            {
+              q: "What is the date of today's APOD?",
+              options: [data.date, "2022-01-01", "2023-05-10", "2024-06-01"],
+              answer: 0
+            },
+            {
+              q: "Does the APOD explanation mention the word 'nebula'?",
+              options: ["yes", "no"],
+              answer: data.explanation.toLowerCase().includes('nebula') ? 0 : 1
+            },
+            {
+              q: "Is the APOD media type an image?",
+              options: ["yes", "no"],
+              answer: data.media_type === "image" ? 0 : 1
+            },
+            {
+              q: "Which NASA API is used for Astronomy Picture of the Day?",
+              options: [
+                "planetary/apod",
+                "mars-photos/api/v1/rovers",
+                "eonet/api/v3/events",
+                "neo/rest/v1/feed"
+              ],
+              answer: 0
+            },
+            {
+              q: "What is the main subject of today's APOD?",
+              options: [
+                data.title,
+                "A planet",
+                "A galaxy",
+                "A comet"
+              ],
+              answer: 0
+            }
+          ];
+
+          var quizQuestionsDiv = document.getElementById('quiz-questions');
+          quizQuestionsDiv.innerHTML = '';
+          questions.forEach(function(q, idx) {
+            quizQuestionsDiv.innerHTML += `
+              <div class="quiz-question">
+                <label>${q.q}</label>
+                <div class="quiz-options">
+                  ${q.options.map((opt, i) =>
+                    `<label><input type="radio" name="q${idx}" value="${i}"> ${opt}</label>`
+                  ).join('<br>')}
+                </div>
+              </div>
+            `;
+          });
+
+          document.getElementById('quiz-form').onsubmit = function(e) {
+            e.preventDefault();
+            var score = 0;
+            questions.forEach(function(q, idx) {
+              var radios = document.getElementsByName('q' + idx);
+              var selected = -1;
+              for (var r of radios) {
+                if (r.checked) selected = parseInt(r.value);
+              }
+              if (selected === q.answer) score++;
+            });
+            document.getElementById('quiz-result').textContent =
+              `You scored ${score} out of ${questions.length}.`;
+          };
+        });
     });
   </script>
 </body>
