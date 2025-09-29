@@ -24,6 +24,7 @@
   <div id="rocket-video-overlay" style="position:fixed; top:0; left:0; width:100vw; height:100vh; z-index:1000; background:linear-gradient(135deg,#101a2b 60%,#1a2233 100%); overflow:hidden;">
     <canvas id="rocket-stars-bg" style="position:absolute;top:0;left:0;width:100vw;height:100vh;z-index:1;"></canvas>
     <canvas id="rocket-launch-canvas" style="position:absolute;top:0;left:0;width:100vw;height:100vh;z-index:2;"></canvas>
+    <canvas id="rocket-smoke-canvas" style="position:absolute;left:0;top:0;width:100vw;height:100vh;z-index:3;pointer-events:none;"></canvas>
   </div>
   <div id="site-content" style="display:none;">
     <canvas id="stars-bg"></canvas>
@@ -419,156 +420,224 @@
 
       // Rocket launch animation
       var rocketCanvas = document.getElementById('rocket-launch-canvas');
-      if (rocketCanvas) {
+      var smokeCanvas = document.getElementById('rocket-smoke-canvas');
+      if (rocketCanvas && smokeCanvas) {
         rocketCanvas.width = window.innerWidth;
         rocketCanvas.height = window.innerHeight;
+        smokeCanvas.width = window.innerWidth;
+        smokeCanvas.height = window.innerHeight;
         var ctx = rocketCanvas.getContext('2d');
+        var smokeCtx = smokeCanvas.getContext('2d');
         var w = rocketCanvas.width, h = rocketCanvas.height;
-        var rocketY = h * 0.8;
+        var rocketY = h * 0.85;
         var rocketX = w/2;
-        var smokeParticles = [];
-        var fullScreenSmokeParticles = [];
         var frame = 0;
         var rocketHeight = h * 0.18;
         var rocketWidth = rocketHeight * 0.18;
+        var smokeParticles = [];
+        var fireParticles = [];
+        var launchPhase = true;
+        var fadeOutFrame = 0;
 
+        // --- Themed Rocket Drawing ---
         function drawRocket(x, y) {
           ctx.save();
           ctx.translate(x, y);
-          // Body
+
+          // Body (gradient: accent to secondary)
+          var bodyGrad = ctx.createLinearGradient(-rocketWidth/2, -rocketHeight, rocketWidth/2, 0);
+          bodyGrad.addColorStop(0, "#3ec6e0");
+          bodyGrad.addColorStop(1, "#23293a");
           ctx.beginPath();
           ctx.rect(-rocketWidth/2, -rocketHeight, rocketWidth, rocketHeight);
-          ctx.fillStyle = "#e0e6ed";
-          ctx.shadowColor = "#fff";
-          ctx.shadowBlur = 16;
+          ctx.fillStyle = bodyGrad;
+          ctx.shadowColor = "#3ec6e0";
+          ctx.shadowBlur = 18;
           ctx.fill();
           ctx.shadowBlur = 0;
-          // Nose cone
+
+          // Nose cone (secondary color)
           ctx.beginPath();
           ctx.moveTo(-rocketWidth/2, -rocketHeight);
           ctx.lineTo(0, -rocketHeight-rocketWidth*1.2);
           ctx.lineTo(rocketWidth/2, -rocketHeight);
           ctx.closePath();
-          ctx.fillStyle = "#b3c6e0";
+          ctx.fillStyle = "#a3b9cc";
           ctx.fill();
-          // Window
+
+          // Window (accent color, with glow)
+          ctx.save();
           ctx.beginPath();
           ctx.arc(0, -rocketHeight*0.7, rocketWidth*0.22, 0, 2*Math.PI);
-          ctx.fillStyle = "#3a6cf0";
+          ctx.fillStyle = "#3ec6e0";
+          ctx.shadowColor = "#3ec6e0";
+          ctx.shadowBlur = 12;
           ctx.fill();
-          // Fins
+          ctx.restore();
+
+          // Fins (accent)
           ctx.beginPath();
           ctx.moveTo(-rocketWidth/2, -rocketHeight*0.2);
           ctx.lineTo(-rocketWidth*0.9, 0);
           ctx.lineTo(-rocketWidth/2, 0);
           ctx.closePath();
-          ctx.fillStyle = "#f44336";
+          ctx.fillStyle = "#3ec6e0";
           ctx.fill();
+
           ctx.beginPath();
           ctx.moveTo(rocketWidth/2, -rocketHeight*0.2);
           ctx.lineTo(rocketWidth*0.9, 0);
           ctx.lineTo(rocketWidth/2, 0);
           ctx.closePath();
-          ctx.fillStyle = "#f44336";
+          ctx.fillStyle = "#3ec6e0";
           ctx.fill();
-          // Flame
-          var flameLen = rocketHeight*0.35 + Math.sin(frame/4)*rocketHeight*0.08;
+
+          // Decorative stripe (horizontal, secondary)
           ctx.beginPath();
-          ctx.moveTo(-rocketWidth/3, 0);
+          ctx.rect(-rocketWidth/2, -rocketHeight*0.45, rocketWidth, rocketHeight*0.09);
+          ctx.fillStyle = "#a3b9cc";
+          ctx.globalAlpha = 0.7;
+          ctx.fill();
+          ctx.globalAlpha = 1;
+
+          // --- Flame (big, animated, realistic) ---
+          var flameLen = rocketHeight*0.55 + Math.sin(frame/2)*rocketHeight*0.12;
+          ctx.save();
+          ctx.beginPath();
+          ctx.moveTo(-rocketWidth/2.2, 0);
+          ctx.bezierCurveTo(-rocketWidth/2, flameLen*0.5, rocketWidth/2, flameLen*0.5, rocketWidth/2.2, 0);
           ctx.lineTo(0, flameLen);
-          ctx.lineTo(rocketWidth/3, 0);
           ctx.closePath();
           var flameGrad = ctx.createLinearGradient(0, 0, 0, flameLen);
           flameGrad.addColorStop(0, "#fff");
-          flameGrad.addColorStop(0.3, "#ffd700");
-          flameGrad.addColorStop(0.7, "#ff9800");
+          flameGrad.addColorStop(0.2, "#ffd700");
+          flameGrad.addColorStop(0.5, "#ff9800");
+          flameGrad.addColorStop(0.8, "#e05c3e");
           flameGrad.addColorStop(1, "#f44336");
+          ctx.globalAlpha = 0.92;
           ctx.fillStyle = flameGrad;
-          ctx.globalAlpha = 0.85;
+          ctx.shadowColor = "#ffd700";
+          ctx.shadowBlur = 24;
           ctx.fill();
+          ctx.shadowBlur = 0;
           ctx.globalAlpha = 1;
+          ctx.restore();
+
           ctx.restore();
         }
 
-        function drawSmoke() {
-          // Rocket smoke
-          for (var i=0; i<smokeParticles.length; i++) {
-            var p = smokeParticles[i];
-            ctx.save();
-            ctx.globalAlpha = p.alpha;
-            ctx.beginPath();
-            ctx.arc(p.x, p.y, p.radius, 0, 2*Math.PI);
-            var grad = ctx.createRadialGradient(p.x, p.y, 0, p.x, p.y, p.radius);
-            grad.addColorStop(0, "#fff");
-            grad.addColorStop(0.5, "#b3c6e0");
-            grad.addColorStop(1, "#101a2b");
-            ctx.fillStyle = grad;
-            ctx.fill();
-            ctx.globalAlpha = 1;
-            ctx.restore();
-            p.y += p.vy;
+        // --- Fire Particle Drawing ---
+        function drawFire() {
+          for (var i=0; i<fireParticles.length; i++) {
+            var p = fireParticles[i];
+            smokeCtx.save();
+            smokeCtx.globalAlpha = p.alpha;
+            smokeCtx.beginPath();
+            smokeCtx.arc(p.x, p.y, p.radius, 0, 2*Math.PI);
+            var grad = smokeCtx.createRadialGradient(p.x, p.y, 0, p.x, p.y, p.radius);
+            grad.addColorStop(0, "rgba(255,255,200,0.9)");
+            grad.addColorStop(0.3, "rgba(255,180,60,0.7)");
+            grad.addColorStop(0.7, "rgba(255,80,0,0.4)");
+            grad.addColorStop(1, "rgba(255,0,0,0.1)");
+            smokeCtx.fillStyle = grad;
+            smokeCtx.fill();
+            smokeCtx.restore();
             p.x += p.vx;
-            p.radius += 0.08;
-            p.alpha -= 0.008;
-          }
-          smokeParticles = smokeParticles.filter(p => p.alpha > 0.05);
-
-          // Fullscreen smoke
-          for (var i=0; i<fullScreenSmokeParticles.length; i++) {
-            var p = fullScreenSmokeParticles[i];
-            ctx.save();
-            ctx.globalAlpha = p.alpha;
-            ctx.beginPath();
-            ctx.arc(p.x, p.y, p.radius, 0, 2*Math.PI);
-            var grad = ctx.createRadialGradient(p.x, p.y, 0, p.x, p.y, p.radius);
-            grad.addColorStop(0, "#fff");
-            grad.addColorStop(0.4, "#b3c6e0");
-            grad.addColorStop(1, "#101a2b");
-            ctx.fillStyle = grad;
-            ctx.fill();
-            ctx.globalAlpha = 1;
-            ctx.restore();
             p.y += p.vy;
-            p.x += p.vx;
-            p.radius += 0.12;
-            p.alpha -= 0.004;
+            p.radius += 0.3 + Math.random()*0.3;
+            p.alpha -= 0.02 + Math.random()*0.01;
           }
-          fullScreenSmokeParticles = fullScreenSmokeParticles.filter(p => p.alpha > 0.03);
+          fireParticles = fireParticles.filter(p => p.alpha > 0.05);
         }
 
+        // --- Smoke Particle Drawing ---
+        function drawSmoke() {
+          smokeCtx.clearRect(0, 0, w, h);
+          drawFire();
+          for (var i=0; i<smokeParticles.length; i++) {
+            var p = smokeParticles[i];
+            smokeCtx.save();
+            smokeCtx.globalAlpha = p.alpha;
+            smokeCtx.beginPath();
+            smokeCtx.arc(p.x, p.y, p.radius, 0, 2*Math.PI);
+            var grad = smokeCtx.createRadialGradient(p.x, p.y, 0, p.x, p.y, p.radius);
+            grad.addColorStop(0, "rgba(255,255,255,0.85)");
+            grad.addColorStop(0.5, "rgba(220,220,220,0.5)");
+            grad.addColorStop(1, "rgba(200,200,200,0.1)");
+            smokeCtx.fillStyle = grad;
+            smokeCtx.fill();
+            smokeCtx.restore();
+            p.x += p.vx;
+            p.y += p.vy;
+            p.radius += 0.7 + Math.random()*0.8;
+            p.alpha -= 0.008 + Math.random()*0.004;
+          }
+          smokeParticles = smokeParticles.filter(p => p.alpha > 0.05);
+        }
+
+        // --- Animation Loop ---
         function animateRocket() {
           ctx.clearRect(0, 0, w, h);
-          // Add fullscreen smoke particles (ground clouds)
-          if (frame < 120) {
-            // Increased quantity and size for full smoke effect
-            for (var i=0; i<18; i++) {
-              var baseY = h * (0.88 + Math.random()*0.09);
-              var baseX = w * (0.08 + Math.random()*0.84);
-              fullScreenSmokeParticles.push({
-                x: baseX,
-                y: baseY,
-                radius: rocketWidth*1.2 + Math.random()*rocketWidth*2.2,
-                alpha: 0.22 + Math.random()*0.32,
+
+          // Fade out everything after launch
+          var overlay = document.getElementById('rocket-video-overlay');
+          if (!launchPhase && fadeOutFrame < 60) {
+            overlay.style.opacity = (1 - fadeOutFrame/60).toFixed(2);
+            fadeOutFrame++;
+          }
+
+          // Draw rocket
+          if (launchPhase || fadeOutFrame < 60) {
+            drawRocket(rocketX, rocketY);
+          }
+
+          // Add fire and smoke particles at rocket base
+          if (launchPhase && rocketY > 0) {
+            for (var i=0; i<22; i++) { // lots of fire
+              fireParticles.push({
+                x: rocketX + (Math.random()-0.5)*rocketWidth*1.2,
+                y: rocketY + rocketHeight*0.1 + Math.random()*18,
+                radius: rocketWidth*0.18 + Math.random()*rocketWidth*0.22,
+                alpha: 0.7 + Math.random()*0.2,
                 vx: (Math.random()-0.5)*1.2,
-                vy: -0.5 - Math.random()*1.2
+                vy: 2.5 + Math.random()*1.2
+              });
+            }
+            for (var i=0; i<18; i++) { // lots of smoke
+              smokeParticles.push({
+                x: rocketX + (Math.random()-0.5)*rocketWidth*1.5,
+                y: rocketY + rocketHeight*0.1 + Math.random()*22,
+                radius: rocketWidth*0.7 + Math.random()*rocketWidth*0.7,
+                alpha: 0.55 + Math.random()*0.25,
+                vx: (Math.random()-0.5)*1.8,
+                vy: 2.2 + Math.random()*1.2
               });
             }
           }
-          drawRocket(rocketX, rocketY);
           drawSmoke();
+
           // Move rocket up
-          rocketY -= h*0.006 + Math.max(0, Math.sin(frame/18))*h*0.002;
-          frame++;
-          // Fade out overlay after rocket leaves screen
-          if (rocketY < -rocketHeight*2) {
-            document.getElementById('rocket-video-overlay').style.transition = "opacity 1.2s";
-            document.getElementById('rocket-video-overlay').style.opacity = 0;
+          if (launchPhase) {
+            rocketY -= h*0.012 + Math.max(0, Math.sin(frame/12))*h*0.004;
+            frame++;
+            // End launch phase when rocket leaves screen
+            if (rocketY < -rocketHeight*2) {
+              launchPhase = false;
+              fadeOutFrame = 0;
+            }
+          }
+
+          // Fade out overlay and smoke naturally
+          if (!launchPhase && fadeOutFrame >= 60) {
+            overlay.style.transition = "opacity 1.2s";
+            overlay.style.opacity = 0;
             setTimeout(function() {
-              document.getElementById('rocket-video-overlay').style.display = 'none';
+              overlay.style.display = 'none';
               document.getElementById('site-content').style.display = '';
             }, 1200);
             return;
           }
+
           requestAnimationFrame(animateRocket);
         }
         animateRocket();
