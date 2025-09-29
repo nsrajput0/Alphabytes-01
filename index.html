@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1.0">
+  <title>Citizen Science Dashboard</title>
+  <link rel="stylesheet" href="style.css">
+  <!-- Leaflet CSS -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+</head>
+  <body>
+  <!-- Rocket Launch Video Overlay -->
+  <div id="rocket-video-overlay">
+    <video id="rocket-launch-video" autoplay muted>
+      <source src="videoplayback.mp4" type="video/mp4">
+      <!-- Replace the above src with your rocket launch video URL -->
+      Your browser does not support the video tag.
+    </video>
+  </div>
+  <div id="site-content" style="display:none;">
+    <canvas id="stars-bg"></canvas>
+    <div class="sprinkles-bg" id="sprinkles-bg"></div>
+    <header>
+    <nav>
+      <div class="logo">EarthLens</div>
+      <ul>
+        <li><a href="#" data-section="home" class="nav-link active">Home</a></li>
+        <li><a href="#" data-section="dashboard" class="nav-link">Dashboard</a></li>
+        <li><a href="#" data-section="solar-system" class="nav-link">Solar System</a></li>
+        <li><a href="#" data-section="study" class="nav-link">Study NASA</a></li>
+        <li><a href="#" data-section="quiz" class="nav-link">Quiz</a></li>
+        <li><a href="#" data-section="about" class="nav-link">About</a></li>
+      </ul> 
+    </nav> 
+  </header>
+
+  <main>
+    <!-- Home Section -->
+    <section id="home" class="main-section">
+      <h1>EarthLens</h1> 
+      <p>Explore NASA's open data about Earth and Space. Get live information on natural events, air quality, and more.</p>
+      <div class="hero-img"></div>
+      <div class="home-extra">
+        <div class="home-cards">
+          <div class="home-card" id="home-apod-preview">
+            <h3>Today's Space Image</h3>
+            <div id="home-apod-img"></div>
+          </div>
+          <div class="home-card" id="home-fact">
+            <h3>Did You Know?</h3>
+            <div id="home-nasa-fact"></div>
+          </div>
+        </div>
+        <div class="home-cta">
+          <h3>Become a Citizen Scientist!</h3>
+          <p>Check the <b>Dashboard</b> for live events, or visit <b>Study NASA</b> to learn more about NASA's missions and discoveries.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Dashboard Section -->
+    <section id="dashboard" class="main-section" style="display:none;">
+      <h2>Live NASA Data Dashboard</h2>
+      <div class="dashboard-grid">
+        <!-- EONET Events -->
+        <div class="dashboard-card" id="events-section">
+          <h3>Recent Natural Events</h3>
+          <div id="events-list" class="events-list"></div>
+        </div>
+        <!-- User Location -->
+        <div class="dashboard-card" id="location-section">
+          <h3>Your Location</h3>
+          <div id="user-location">Detecting location...</div>
+          <div id="user-temp"></div>
+          <div id="user-time"></div>
+        </div>
+        <!-- Air Quality -->
+        <div class="dashboard-card" id="air-quality-section">
+          <h3>Air Quality</h3>
+          <div id="air-quality-content">Loading air quality...</div>
+        </div>
+        <!-- Map -->
+        <div class="dashboard-card map-card">
+          <h3>Event Map</h3>
+          <div id="map" style="height:300px;"></div>
+        </div>
+        <!-- APOD -->
+        <div class="dashboard-card" id="apod-section">
+          <h3>Astronomy Picture of the Day</h3>
+          <div id="apod-content"></div>
+        </div>
+        <!-- Chart -->
+        <div class="dashboard-card">
+          <h3>Events by Category</h3>
+          <canvas id="events-chart" width="400" height="250"></canvas>
+        </div>
+        <!-- NASA News -->
+        <div class="dashboard-card" id="news-section">
+          <h3>NASA News</h3>
+          <div id="nasa-news-list"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Solar System Section -->
+    <section id="solar-system" class="main-section" style="display:none;">
+      <h2>Solar System Model</h2>
+      <div class="solar-system-container">
+        <div id="solar-system-canvas"></div>
+      </div>
+
+        <!-- Info box for planet/sun details -->
+      <p style="color:#a3b9cc; margin-top:1em;">Planets revolve around the Sun at relative speeds and distances. (Not to scale)</p>
+      <div id="planet-info" style="margin-top:2em; background:#1a2233; color:#fff; padding:1em; border-radius:8px;  display:none; z-index:20;"></div>
+      
+    </section>
+
+    <!-- Study NASA Section -->
+    <section id="study" class="main-section" style="display:none;">
+      <h2>Study NASA</h2>
+      <div class="study-content">
+        
+        <div class="study-info">
+          <h3>History of NASA</h3>
+          <p>
+            🚀 The Complete History of NASA <br>
+
+🌍 Origins <br>
+
+Founded: July 29, 1958 (by National Aeronautics and Space Act). <br>
+
+Reason: Cold War tensions & the USSR’s launch of Sputnik 1 (1957). <br>
+
+Predecessor: NACA (National Advisory Committee for Aeronautics, founded in 1915). <br>
+
+Official Start: October 1, 1958. <br><br>
+
+
+👉 First Administrator: Dr. T. Keith Glennan <br>
+👉 Motto: “For the Benefit of All.” <br> <br> <br>
+
+
+---
+<br>
+🧑‍🚀 The Space Race Era (1958–1969) <br>
+
+Project Mercury (1959–63): <br>
+
+Goal → Send first Americans into space. <br>
+
+1961: Alan Shepard → 1st American in space. <br>
+
+1962: John Glenn → 1st American to orbit Earth. <br><br>
+
+
+Project Gemini (1961–66): <br>
+
+Practiced spacewalks, docking, and long-duration flights. <br>
+
+Helped prepare astronauts for the Moon. <br>
+
+
+Apollo Program (1961–72): <br>
+
+Announced by President John F. Kennedy (1961): “We choose to go to the Moon.” <br>
+
+Apollo 8 (1968): 1st crewed spacecraft to orbit the Moon. <br>
+
+Apollo 11 (1969): Neil Armstrong & Buzz Aldrin walked on the Moon. <br>
+
+Six Moon landings in total (Apollo 11–17, except 13 due to in-flight emergency). <br> <br><br>
+
+
+
+
+--- <br>
+
+🛰️ Post-Apollo Achievements (1970s–1980s) <br>
+
+Skylab (1973–79): America’s first space station. <br>
+
+Apollo-Soyuz Test Project (1975): First U.S.–Soviet joint mission → symbol of peace. <br>
+
+Voyager Probes (1977): Sent to study outer planets (still sending signals today 🌌). <br>
+
+Space Shuttle Program (1981–2011): <br>
+
+Reusable spacecraft (Columbia, Challenger, Discovery, Atlantis, Endeavour). <br>
+
+Challenger disaster (1986) → Shuttle exploded after launch. <br>
+
+Revolutionized satellite deployment & ISS construction. <br><br><br>
+
+
+
+
+--- <br>
+
+🌌 The Modern Space Age (1990s–2000s) <br>
+
+Hubble Space Telescope (1990): Gave breathtaking deep-space images. <br>
+
+International Space Station (1998–Present): Built by NASA + Russia + partners. <br>
+
+Mars Exploration Rovers (2003): Spirit & Opportunity explored the Red Planet. <br>
+
+Columbia Disaster (2003): Shuttle disintegrated on re-entry → 7 astronauts lost. <br><br><br>
+
+
+
+--- <br>
+
+✨ The New Era (2010s–Present) <br>
+
+Curiosity Rover (2012): Landed on Mars with advanced science lab. <br>
+
+New Horizons (2015): Flyby mission → first detailed images of Pluto. <br>
+
+Perseverance Rover (2021): Searching for signs of ancient life on Mars. <br>
+
+James Webb Space Telescope (2021): Most powerful telescope ever launched. <br>
+
+Commercial Partnerships: Collaborating with SpaceX, Blue Origin, Boeing, etc. <br>
+
+Artemis Program (Ongoing): <br>
+
+Goal → Return astronauts to the Moon by mid-2020s. <br>
+
+Special focus: First woman and first person of color on the Moon. <br>
+
+Long-term → Use Moon as base for Mars missions. <br><br><br>
+
+
+
+
+--- <br>
+
+📍 Fun Facts about NASA <br>
+
+Budget (2024): ~$25 billion. <br>
+
+NASA inventions used in daily life: memory foam, scratch-resistant lenses, water filters, cordless tools, freeze-dried food. <br>
+
+NASA’s motto: “Explore. Discover. Understand.” <br>
+
+NASA has 10 major research centers across the U.S. (e.g., Kennedy Space Center, Johnson Space Center, Jet Propulsion Laboratory). <br><br><br>
+
+
+
+--- <br>
+
+👉 In short, NASA’s journey is like this: <br>
+Sputnik shock → Mercury rockets → Apollo Moon landing → Space Shuttle & ISS → Mars rovers & Hubble → Artemis & Webb for the future🌌✨
+          </p>
+          </div>
+        <div class="study-info">
+
+        
+        <div class="study-links">
+          <h3>Learn More</h3>
+          <ul>
+            <li><a href="https://www.nasa.gov/" target="_blank">NASA Official Website</a></li>
+            <li><a href="https://science.nasa.gov/" target="_blank">NASA Science</a></li>
+            <li><a href="https://www.nasa.gov/missions" target="_blank">NASA Missions</a></li>
+            <li><a href="https://www.nasa.gov/kidsclub/index.html" target="_blank">NASA Kids' Club</a></li>
+          </ul>
+        </div></div>
+      </div>
+    </section>
+
+    <!-- Quiz Section -->
+    <section id="quiz" class="main-section" style="display:none;">
+      <h2>NASA Quiz</h2>
+      <div id="quiz-paragraph" class="quiz-paragraph"></div>
+      <form id="quiz-form">
+        <div id="quiz-questions"></div>
+        <button type="submit" id="quiz-submit">Submit Answers</button>
+      </form>
+      <div id="quiz-result"></div>
+      <button id="quiz-next-level" style="display:none;">Next Level</button>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="main-section" style="display:none;">
+      <h2>About Citizen Science Dashboard</h2>
+      <div class="about-beautiful">
+        <div class="about-mission">
+          <h3>Our Mission</h3>
+          <p>
+            <b>Citizen Science Dashboard</b> empowers everyone to explore and understand our planet and universe using NASA's open data.<br>
+            <span class="about-highlight">Track real-time natural events, see your location on a live map, enjoy daily space images, and stay updated with NASA news.</span>
+          </p>
+        </div>
+        <div class="about-features">
+          <h3>Features</h3>
+          <ul>
+            <li>🌍 Live natural event tracking (wildfires, storms, volcanoes, floods)</li>
+            <li>📍 Your location, temperature, and local time</li>
+            <li>🗺️ Interactive world map</li>
+            <li>📊 Event statistics and charts</li>
+            <li>📰 Latest NASA news</li>
+            <li>🌌 Astronomy Picture of the Day</li>
+            <li>📚 Study NASA facts and resources</li>
+          </ul>
+        </div>
+        <div class="about-resources">
+          <h3>Resources</h3>
+          <ul>
+            <li><a href="https://eonet.gsfc.nasa.gov/docs/v3" target="_blank">NASA EONET API</a></li>
+            <li><a href="https://api.nasa.gov/" target="_blank">NASA Open APIs</a></li>
+            <li><a href="https://apod.nasa.gov/apod/astropix.html" target="_blank">Astronomy Picture of the Day</a></li>
+            <li><a href="https://www.nasa.gov/news/releases/latest/index.html" target="_blank">NASA Newsroom</a></li>
+          </ul>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <p>Made for NASA Space Apps Challenge 2025</p>
+  </footer>
+
+  <!-- Fixed NASA logo bottom right -->
+  <div class="nasa-logo-fixed">
+    <img src="nasa-logo.png" alt="NASA Logo" />
+  </div>
+
+  <!-- Leaflet JS -->
+  <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+  <!-- Chart.js -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="script.js"></script>
+  <script>
+    // Show homepage after rocket video ends
+    window.addEventListener('DOMContentLoaded', function() {
+      var video = document.getElementById('rocket-launch-video');
+      video.onended = function() {
+        document.getElementById('rocket-video-overlay').style.display = 'none';
+        document.getElementById('site-content').style.display = '';
+      };
+    });
+  </script>
+</body>
+</html>
