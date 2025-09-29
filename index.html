@@ -20,6 +20,11 @@
     <header>
     <nav>
       <div class="logo">EarthLens</div>
+      <button class="nav-toggle" aria-label="Toggle navigation">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
       <ul>
         <li><a href="#" data-section="home" class="nav-link active">Home</a></li>
         <li><a href="#" data-section="dashboard" class="nav-link">Dashboard</a></li>
@@ -471,17 +476,18 @@ Sputnik shock → Mercury rockets → Apollo Moon landing → Space Shuttle & IS
         function animateRocket() {
           ctx.clearRect(0, 0, w, h);
           // Add fullscreen smoke particles (ground clouds)
-          if (frame % 3 === 0 && frame < 120) {
-            for (var i=0; i<6; i++) {
-              var baseY = h * 0.92 + Math.random()*h*0.04;
-              var baseX = w * (0.2 + Math.random()*0.6);
+          if (frame < 120) {
+            // Increased quantity and size for full smoke effect
+            for (var i=0; i<18; i++) {
+              var baseY = h * (0.88 + Math.random()*0.09);
+              var baseX = w * (0.08 + Math.random()*0.84);
               fullScreenSmokeParticles.push({
                 x: baseX,
                 y: baseY,
-                radius: rocketWidth*0.7 + Math.random()*rocketWidth*1.2,
-                alpha: 0.18 + Math.random()*0.22,
-                vx: (Math.random()-0.5)*0.7,
-                vy: -0.4 - Math.random()*0.7
+                radius: rocketWidth*1.2 + Math.random()*rocketWidth*2.2,
+                alpha: 0.22 + Math.random()*0.32,
+                vx: (Math.random()-0.5)*1.2,
+                vy: -0.5 - Math.random()*1.2
               });
             }
           }
@@ -504,6 +510,45 @@ Sputnik shock → Mercury rockets → Apollo Moon landing → Space Shuttle & IS
         }
         animateRocket();
       }
+    });
+  </script>
+  <script>
+    // Responsive navbar toggle
+    document.addEventListener('DOMContentLoaded', function() {
+      var navToggle = document.querySelector('.nav-toggle');
+      var navMenu = document.querySelector('nav ul');
+      navToggle.addEventListener('click', function() {
+        navMenu.classList.toggle('show');
+      });
+      // Close menu on link click (mobile)
+      navMenu.querySelectorAll('a').forEach(function(link) {
+        link.addEventListener('click', function() {
+          if(window.innerWidth <= 700) navMenu.classList.remove('show');
+        });
+      });
+      // Optional: close menu on outside click
+      document.addEventListener('click', function(e) {
+        if(window.innerWidth > 700) return;
+        if(!navMenu.contains(e.target) && !navToggle.contains(e.target)) {
+          navMenu.classList.remove('show');
+        }
+      });
+    });
+  </script>
+  <script>
+    // Responsive solar system canvas (if using JS for rendering)
+    window.addEventListener('DOMContentLoaded', function() {
+      function resizeSolarCanvas() {
+        var el = document.getElementById('solar-system-canvas');
+        if (el && el.tagName === 'CANVAS') {
+          var rect = el.getBoundingClientRect();
+          el.width = rect.width;
+          el.height = rect.height;
+          // Optionally: re-render solar system here if needed
+        }
+      }
+      resizeSolarCanvas();
+      window.addEventListener('resize', resizeSolarCanvas);
     });
   </script>
 </body>
