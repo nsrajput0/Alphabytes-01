@@ -19,14 +19,14 @@
     }
   </style>
 </head>
-  <body>
+  <body style="background-color: black;">
   <!-- Rocket Launch Animation Overlay -->
   <div id="rocket-video-overlay" style="position:fixed; top:0; left:0; width:100vw; height:100vh; z-index:1000; background:linear-gradient(135deg,#101a2b 60%,#1a2233 100%); overflow:hidden;">
     <canvas id="rocket-stars-bg" style="position:absolute;top:0;left:0;width:100vw;height:100vh;z-index:1;"></canvas>
     <canvas id="rocket-launch-canvas" style="position:absolute;top:0;left:0;width:100vw;height:100vh;z-index:2;"></canvas>
     <canvas id="rocket-smoke-canvas" style="position:absolute;left:0;top:0;width:100vw;height:100vh;z-index:3;pointer-events:none;"></canvas>
   </div>
-  <div id="site-content" style="display:none;">
+  <div id="site-content" style="display:none; background-color: black;">
     <canvas id="stars-bg"></canvas>
     <div class="sprinkles-bg" id="sprinkles-bg"></div>
     <header>
@@ -374,9 +374,27 @@
     <p>Made for NASA Space Apps Challenge 2025</p>
   </footer>
 
-  <!-- Fixed NASA logo bottom right -->
-  <div class="nasa-logo-fixed">
+  <!-- Remove NASA logo fixed -->
+  <!-- <div class="nasa-logo-fixed">
     <img src="nasa-logo.png" alt="NASA Logo" />
+  </div> -->
+
+  <!-- Add Chatbot Widget -->
+  <div id="earthlens-chatbot" style="position:fixed;right:24px;bottom:24px;z-index:10000;">
+    <div id="chatbot-window" style="width:320px;max-width:98vw;background:rgba(28,32,44,0.97);color:#e0e6ed;border-radius:1.2rem;box-shadow:0 4px 32px #000a;overflow:hidden;display:none;flex-direction:column;">
+      <div style="background:#23243a;padding:0.7em 1em;font-weight:700;display:flex;align-items:center;justify-content:space-between;">
+        <span>EarthLens Chatbot</span>
+        <button id="chatbot-close" style="background:none;border:none;color:#e0e6ed;font-size:1.3em;cursor:pointer;">×</button>
+      </div>
+      <div id="chatbot-messages" style="flex:1;max-height:260px;overflow-y:auto;padding:1em 1em 0.5em 1em;font-size:1em;"></div>
+      <form id="chatbot-form" style="display:flex;padding:0.7em 1em 1em 1em;gap:0.5em;">
+        <input id="chatbot-input" type="text" autocomplete="off" placeholder="Ask about NASA, dashboard, solar system..." style="flex:1;padding:0.6em 1em;border-radius:2em;border:none;background:#181a24;color:#e0e6ed;font-size:1em;">
+        <button type="submit" style="background:#7c4dff;color:#fff;border:none;border-radius:2em;padding:0.6em 1.2em;font-weight:600;cursor:pointer;">Send</button>
+      </form>
+    </div>
+    <button id="chatbot-toggle" style="background:#7c4dff;color:#fff;border:none;border-radius:50%;width:56px;height:56px;box-shadow:0 2px 16px #7c4dff88;cursor:pointer;font-size:2em;display:flex;align-items:center;justify-content:center;">
+      💬
+    </button>
   </div>
 
   <!-- Leaflet JS -->
@@ -883,6 +901,114 @@
           };
         });
     });
+  </script>
+  <script>
+// Chatbot Q&A logic (JSON-based)
+const chatbotQA = [
+  {
+    q: ["what is earthlens", "what does earthlens do", "about earthlens", "what is this website"],
+    a: "EarthLens is a citizen science dashboard that lets you explore NASA's open data about Earth and Space, including live natural events, air quality, solar system info, and more."
+  },
+  {
+    q: ["how do i see nasa events", "show me nasa events", "natural events", "dashboard events"],
+    a: "Go to the Dashboard section to see recent NASA-tracked natural events like wildfires, floods, storms, and volcanoes. You can also view them on the interactive map."
+  },
+  {
+    q: ["what is apod", "astronomy picture of the day", "space image", "today's space image"],
+    a: "APOD stands for Astronomy Picture of the Day. Each day, NASA shares a stunning space image with an explanation. You can see it on the Home and Dashboard sections."
+  },
+  {
+    q: ["how do i check air quality", "air quality", "is my air clean", "dashboard air quality"],
+    a: "The Dashboard section shows your local air quality using open data. It includes PM2.5, PM10, carbon monoxide, and ozone levels."
+  },
+  {
+    q: ["solar system", "show me planets", "solar system model", "planets info"],
+    a: "Visit the Solar System section for an interactive model. Click on any planet or the Sun to learn facts about them."
+  },
+  {
+    q: ["quiz", "nasa quiz", "how to play quiz", "test my knowledge"],
+    a: "Go to the Quiz section to answer questions generated from NASA's Astronomy Picture of the Day. Submit your answers to see your score."
+  },
+  {
+    q: ["study nasa", "nasa history", "nasa achievements", "nasa failures"],
+    a: "The Study NASA section lets you learn about NASA's history, achievements, and failures. You can also find links to official NASA resources."
+  },
+  {
+    q: ["resources", "api", "where does data come from", "data sources"],
+    a: "EarthLens uses NASA EONET, APOD, OpenAQ, Open-Meteo, SoilGrids, and NASA News APIs for live data. See the About section for more details."
+  },
+  {
+    q: ["who made this", "team", "challenge", "space apps"],
+    a: "This dashboard was made by AlphaBytes Team for the NASA Space Apps Challenge 2025."
+  }
+];
+
+// Utility: Find best answer for a question
+function chatbotFindAnswer(userQ) {
+  const qNorm = userQ.trim().toLowerCase();
+  for (const qa of chatbotQA) {
+    for (const q of qa.q) {
+      if (qNorm.includes(q)) return qa.a;
+    }
+  }
+  // Fallback: Only answer questions about the website
+  if (
+    qNorm.includes("nasa") ||
+    qNorm.includes("dashboard") ||
+    qNorm.includes("solar system") ||
+    qNorm.includes("apod") ||
+    qNorm.includes("quiz") ||
+    qNorm.includes("event") ||
+    qNorm.includes("air quality") ||
+    qNorm.includes("resources") ||
+    qNorm.includes("earthlens")
+  ) {
+    return "Sorry, I can only answer questions about EarthLens, NASA data, dashboard features, solar system, quiz, and resources. Try asking about those!";
+  }
+  return "Sorry, I can only answer questions related to this website (EarthLens, NASA data, dashboard, solar system, quiz, resources).";
+}
+
+// Chatbot UI logic
+document.addEventListener('DOMContentLoaded', function() {
+  const chatbotToggle = document.getElementById('chatbot-toggle');
+  const chatbotWindow = document.getElementById('chatbot-window');
+  const chatbotForm = document.getElementById('chatbot-form');
+  const chatbotInput = document.getElementById('chatbot-input');
+  const chatbotMessages = document.getElementById('chatbot-messages');
+  const chatbotClose = document.getElementById('chatbot-close');
+
+  chatbotToggle.onclick = function() {
+    chatbotWindow.style.display = 'flex';
+    chatbotToggle.style.display = 'none';
+    chatbotInput.focus();
+    chatbotMessages.innerHTML = '<div style="margin-bottom:0.7em;">👋 Hi! Ask me anything about EarthLens, NASA data, dashboard, solar system, quiz, or resources.</div>';
+  };
+  chatbotClose.onclick = function() {
+    chatbotWindow.style.display = 'none';
+    chatbotToggle.style.display = '';
+  };
+  chatbotForm.onsubmit = function(e) {
+    e.preventDefault();
+    const userQ = chatbotInput.value.trim();
+    if (!userQ) return;
+    const userMsg = document.createElement('div');
+    userMsg.style = "margin:0.5em 0;text-align:right;";
+    userMsg.innerHTML = `<span style="background:#7c4dff;color:#fff;padding:0.5em 1em;border-radius:2em;display:inline-block;">${userQ}</span>`;
+    chatbotMessages.appendChild(userMsg);
+
+    const botA = chatbotFindAnswer(userQ);
+    setTimeout(() => {
+      const botMsg = document.createElement('div');
+      botMsg.style = "margin:0.5em 0;text-align:left;";
+      botMsg.innerHTML = `<span style="background:#23243a;color:#e0e6ed;padding:0.5em 1em;border-radius:2em;display:inline-block;">${botA}</span>`;
+      chatbotMessages.appendChild(botMsg);
+      chatbotMessages.scrollTop = chatbotMessages.scrollHeight;
+    }, 400);
+
+    chatbotInput.value = '';
+    chatbotMessages.scrollTop = chatbotMessages.scrollHeight;
+  };
+});
   </script>
 </body>
 </html>
