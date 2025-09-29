@@ -9,13 +9,10 @@
   <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
 </head>
   <body>
-  <!-- Rocket Launch Video Overlay -->
-  <div id="rocket-video-overlay">
-    <video id="rocket-launch-video" autoplay muted>
-      <source src="videoplayback.mp4" type="video/mp4">
-      <!-- Replace the above src with your rocket launch video URL -->
-      Your browser does not support the video tag.
-    </video>
+  <!-- Rocket Launch Animation Overlay -->
+  <div id="rocket-video-overlay" style="position:fixed; top:0; left:0; width:100vw; height:100vh; z-index:1000; background:linear-gradient(135deg,#101a2b 60%,#1a2233 100%); overflow:hidden;">
+    <canvas id="rocket-stars-bg" style="position:absolute;top:0;left:0;width:100vw;height:100vh;z-index:1;"></canvas>
+    <canvas id="rocket-launch-canvas" style="position:absolute;top:0;left:0;width:100vw;height:100vh;z-index:2;"></canvas>
   </div>
   <div id="site-content" style="display:none;">
     <canvas id="stars-bg"></canvas>
@@ -331,13 +328,182 @@ Sputnik shock → Mercury rockets → Apollo Moon landing → Space Shuttle & IS
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <script src="script.js"></script>
   <script>
-    // Show homepage after rocket video ends
+    // Show homepage after rocket animation ends
     window.addEventListener('DOMContentLoaded', function() {
-      var video = document.getElementById('rocket-launch-video');
-      video.onended = function() {
-        document.getElementById('rocket-video-overlay').style.display = 'none';
-        document.getElementById('site-content').style.display = '';
-      };
+      // Stars background for rocket overlay
+      var starsCanvas = document.getElementById('rocket-stars-bg');
+      if (starsCanvas) {
+        starsCanvas.width = window.innerWidth;
+        starsCanvas.height = window.innerHeight;
+        var ctx = starsCanvas.getContext('2d');
+        for (var i=0; i<120; i++) {
+          var x = Math.random()*starsCanvas.width;
+          var y = Math.random()*starsCanvas.height;
+          var r = Math.random()*1.2+0.3;
+          ctx.beginPath();
+          ctx.arc(x, y, r, 0, 2*Math.PI);
+          ctx.fillStyle = '#fff';
+          ctx.globalAlpha = Math.random()*0.7+0.3;
+          ctx.fill();
+        }
+        ctx.globalAlpha = 1;
+      }
+
+      // Rocket launch animation
+      var rocketCanvas = document.getElementById('rocket-launch-canvas');
+      if (rocketCanvas) {
+        rocketCanvas.width = window.innerWidth;
+        rocketCanvas.height = window.innerHeight;
+        var ctx = rocketCanvas.getContext('2d');
+        var w = rocketCanvas.width, h = rocketCanvas.height;
+        var rocketY = h * 0.8;
+        var rocketX = w/2;
+        var smokeParticles = [];
+        var fullScreenSmokeParticles = [];
+        var frame = 0;
+        var rocketHeight = h * 0.18;
+        var rocketWidth = rocketHeight * 0.18;
+
+        function drawRocket(x, y) {
+          ctx.save();
+          ctx.translate(x, y);
+          // Body
+          ctx.beginPath();
+          ctx.rect(-rocketWidth/2, -rocketHeight, rocketWidth, rocketHeight);
+          ctx.fillStyle = "#e0e6ed";
+          ctx.shadowColor = "#fff";
+          ctx.shadowBlur = 16;
+          ctx.fill();
+          ctx.shadowBlur = 0;
+          // Nose cone
+          ctx.beginPath();
+          ctx.moveTo(-rocketWidth/2, -rocketHeight);
+          ctx.lineTo(0, -rocketHeight-rocketWidth*1.2);
+          ctx.lineTo(rocketWidth/2, -rocketHeight);
+          ctx.closePath();
+          ctx.fillStyle = "#b3c6e0";
+          ctx.fill();
+          // Window
+          ctx.beginPath();
+          ctx.arc(0, -rocketHeight*0.7, rocketWidth*0.22, 0, 2*Math.PI);
+          ctx.fillStyle = "#3a6cf0";
+          ctx.fill();
+          // Fins
+          ctx.beginPath();
+          ctx.moveTo(-rocketWidth/2, -rocketHeight*0.2);
+          ctx.lineTo(-rocketWidth*0.9, 0);
+          ctx.lineTo(-rocketWidth/2, 0);
+          ctx.closePath();
+          ctx.fillStyle = "#f44336";
+          ctx.fill();
+          ctx.beginPath();
+          ctx.moveTo(rocketWidth/2, -rocketHeight*0.2);
+          ctx.lineTo(rocketWidth*0.9, 0);
+          ctx.lineTo(rocketWidth/2, 0);
+          ctx.closePath();
+          ctx.fillStyle = "#f44336";
+          ctx.fill();
+          // Flame
+          var flameLen = rocketHeight*0.35 + Math.sin(frame/4)*rocketHeight*0.08;
+          ctx.beginPath();
+          ctx.moveTo(-rocketWidth/3, 0);
+          ctx.lineTo(0, flameLen);
+          ctx.lineTo(rocketWidth/3, 0);
+          ctx.closePath();
+          var flameGrad = ctx.createLinearGradient(0, 0, 0, flameLen);
+          flameGrad.addColorStop(0, "#fff");
+          flameGrad.addColorStop(0.3, "#ffd700");
+          flameGrad.addColorStop(0.7, "#ff9800");
+          flameGrad.addColorStop(1, "#f44336");
+          ctx.fillStyle = flameGrad;
+          ctx.globalAlpha = 0.85;
+          ctx.fill();
+          ctx.globalAlpha = 1;
+          ctx.restore();
+        }
+
+        function drawSmoke() {
+          // Rocket smoke
+          for (var i=0; i<smokeParticles.length; i++) {
+            var p = smokeParticles[i];
+            ctx.save();
+            ctx.globalAlpha = p.alpha;
+            ctx.beginPath();
+            ctx.arc(p.x, p.y, p.radius, 0, 2*Math.PI);
+            var grad = ctx.createRadialGradient(p.x, p.y, 0, p.x, p.y, p.radius);
+            grad.addColorStop(0, "#fff");
+            grad.addColorStop(0.5, "#b3c6e0");
+            grad.addColorStop(1, "#101a2b");
+            ctx.fillStyle = grad;
+            ctx.fill();
+            ctx.globalAlpha = 1;
+            ctx.restore();
+            p.y += p.vy;
+            p.x += p.vx;
+            p.radius += 0.08;
+            p.alpha -= 0.008;
+          }
+          smokeParticles = smokeParticles.filter(p => p.alpha > 0.05);
+
+          // Fullscreen smoke
+          for (var i=0; i<fullScreenSmokeParticles.length; i++) {
+            var p = fullScreenSmokeParticles[i];
+            ctx.save();
+            ctx.globalAlpha = p.alpha;
+            ctx.beginPath();
+            ctx.arc(p.x, p.y, p.radius, 0, 2*Math.PI);
+            var grad = ctx.createRadialGradient(p.x, p.y, 0, p.x, p.y, p.radius);
+            grad.addColorStop(0, "#fff");
+            grad.addColorStop(0.4, "#b3c6e0");
+            grad.addColorStop(1, "#101a2b");
+            ctx.fillStyle = grad;
+            ctx.fill();
+            ctx.globalAlpha = 1;
+            ctx.restore();
+            p.y += p.vy;
+            p.x += p.vx;
+            p.radius += 0.12;
+            p.alpha -= 0.004;
+          }
+          fullScreenSmokeParticles = fullScreenSmokeParticles.filter(p => p.alpha > 0.03);
+        }
+
+        function animateRocket() {
+          ctx.clearRect(0, 0, w, h);
+          // Add fullscreen smoke particles (ground clouds)
+          if (frame % 3 === 0 && frame < 120) {
+            for (var i=0; i<6; i++) {
+              var baseY = h * 0.92 + Math.random()*h*0.04;
+              var baseX = w * (0.2 + Math.random()*0.6);
+              fullScreenSmokeParticles.push({
+                x: baseX,
+                y: baseY,
+                radius: rocketWidth*0.7 + Math.random()*rocketWidth*1.2,
+                alpha: 0.18 + Math.random()*0.22,
+                vx: (Math.random()-0.5)*0.7,
+                vy: -0.4 - Math.random()*0.7
+              });
+            }
+          }
+          drawRocket(rocketX, rocketY);
+          drawSmoke();
+          // Move rocket up
+          rocketY -= h*0.006 + Math.max(0, Math.sin(frame/18))*h*0.002;
+          frame++;
+          // Fade out overlay after rocket leaves screen
+          if (rocketY < -rocketHeight*2) {
+            document.getElementById('rocket-video-overlay').style.transition = "opacity 1.2s";
+            document.getElementById('rocket-video-overlay').style.opacity = 0;
+            setTimeout(function() {
+              document.getElementById('rocket-video-overlay').style.display = 'none';
+              document.getElementById('site-content').style.display = '';
+            }, 1200);
+            return;
+          }
+          requestAnimationFrame(animateRocket);
+        }
+        animateRocket();
+      }
     });
   </script>
 </body>
