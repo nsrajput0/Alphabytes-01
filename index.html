@@ -624,7 +624,12 @@
 
           // Move rocket up
           if (launchPhase) {
-            rocketY -= h*0.012 + Math.max(0, Math.sin(frame/12))*h*0.004;
+            // Detect phone mode (mobile)
+            var isMobile = window.innerWidth <= 700 || window.innerHeight <= 700;
+            var baseSpeed = h * 0.012 + Math.max(0, Math.sin(frame/12))*h*0.004;
+            // On phone, make rocket much faster (relative to height)
+            var speed = isMobile ? h * 0.028 + Math.max(0, Math.sin(frame/8))*h*0.008 : baseSpeed;
+            rocketY -= speed;
             frame++;
             // End launch phase when rocket leaves screen
             if (rocketY < -rocketHeight*2) {

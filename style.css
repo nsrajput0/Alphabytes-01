@@ -74,11 +74,8 @@ nav {
 .logo {
   font-weight: 700;
   font-size: 2.1rem;
-  color: var(--accent2);
+  color: var(--text);
   letter-spacing: 2px;
-  text-shadow: 0 2px 12px var(--accent2);
-  filter: drop-shadow(0 0 8px var(--accent));
-  animation: logoGlow 2s infinite alternate;
 }
 @keyframes logoGlow {
   0% { filter: drop-shadow(0 0 8px var(--accent)); }
@@ -88,10 +85,9 @@ nav {
 nav ul {
   list-style: none;
   display: flex;
-  gap: 2.5rem;
+  gap: 2px;
   margin: 0;
   padding: 0;
-  align-items: center;
 }
 
 nav a {
@@ -151,7 +147,7 @@ nav .nav-toggle span {
     max-height: 0;
     opacity: 0;
     overflow: hidden;
-    gap: 2.2rem;
+    gap: 2px;
     border-radius: 0;
     z-index: 100;
     justify-content: center;
@@ -201,13 +197,7 @@ nav .nav-toggle span {
   box-shadow: var(--shadow);
   opacity: 0.92;
   border: 2px solid var(--accent2);
-  animation: heroPulse 4s infinite alternate;
 }
-@keyframes heroPulse {
-  0% { box-shadow: 0 8px 32px var(--accent2); }
-  100% { box-shadow: 0 8px 64px var(--accent); }
-}
-
 .home-extra {
   margin-top: 2.5rem;
   display: flex;
@@ -493,13 +483,19 @@ a:hover {
   align-items: center;
   justify-content: center;
 }
-#rocket-video-overlay video {
-  max-width: 100vw;
-  max-height: 100vh;
-  object-fit: cover;
-  border-radius: 0;
-  box-shadow: 0 0 40px #000a;
+
+/* Make smoke canvas full width and height */
+#rocket-smoke-canvas {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100vw !important;
+  height: 100vh !important;
+  z-index: 3;
+  pointer-events: none;
+  display: block;
 }
+
 /* --- Solar System Section --- */
 .solar-system-container {
   background: var(--glass-bg);
@@ -641,7 +637,7 @@ nav {
 nav ul {
   list-style: none;
   display: flex;
-  gap: 1.5rem;
+  gap: 2px;
   margin: 0;
   padding: 0;
   transition: max-height 0.3s, opacity 0.3s;
@@ -684,7 +680,7 @@ nav .nav-toggle span {
     max-height: 0;
     opacity: 0;
     overflow: hidden;
-    gap: 2.2rem;
+    gap: 2px;
     border-radius: 0;
     z-index: 100;
     justify-content: center;
@@ -718,7 +714,7 @@ nav .nav-toggle span {
 .logo {
   font-weight: bold;
   font-size: 1.2rem;
-  color: var(--accent2);
+  color: var(--text);
   letter-spacing: 1px;
 }
 
@@ -728,7 +724,7 @@ nav a {
   font-weight: 500;
   padding: 0.3em 0.7em;
   border-radius: 4px;
-  transition: background 0.2s;
+  /* transition: background 0.2s; */
 }
 
 nav a.active, nav a:hover {
@@ -1235,12 +1231,6 @@ body::before {
 .study-media-item iframe:hover {
   box-shadow: 0 8px 32px var(--accent);
 }
-@media (max-width: 700px) {
-  .study-media {
-    flex-direction: column;
-    gap: 1.2em;
-    align-items: center;
-  }
   .study-media-item img,
   .study-media-item iframe {
     max-width: 98vw;
