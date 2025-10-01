@@ -85,7 +85,7 @@ nav {
 nav ul {
   list-style: none;
   display: flex;
-  gap: 2px;
+  gap: 2rem;
   margin: 0;
   padding: 0;
 }
@@ -637,7 +637,7 @@ nav {
 nav ul {
   list-style: none;
   display: flex;
-  gap: 2px;
+  gap: 1.2rem;
   margin: 0;
   padding: 0;
   transition: max-height 0.3s, opacity 0.3s;
@@ -952,6 +952,7 @@ a:hover {
   gap: 2rem;
   align-items: flex-start;
   margin-top: 1.5rem;
+  justify-content: center;
 }
 .study-fact {
   background: var(--card-bg);
@@ -1236,4 +1237,3 @@ body::before {
     max-width: 98vw;
     height: auto;
   }
-}
