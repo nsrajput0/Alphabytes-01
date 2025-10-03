@@ -85,7 +85,7 @@ nav {
 nav ul {
   list-style: none;
   display: flex;
-  gap: 2px;
+  gap: 13px;
   margin: 0;
   padding: 0;
 }
@@ -147,7 +147,7 @@ nav .nav-toggle span {
     max-height: 0;
     opacity: 0;
     overflow: hidden;
-    gap: 2px;
+    gap: 12px;
     border-radius: 0;
     z-index: 100;
     justify-content: center;
@@ -637,7 +637,7 @@ nav {
 nav ul {
   list-style: none;
   display: flex;
-  gap: 2px;
+  gap: 1.2rem;
   margin: 0;
   padding: 0;
   transition: max-height 0.3s, opacity 0.3s;
@@ -921,7 +921,7 @@ a:hover {
   display: flex;
   flex-direction: column;
   gap: 0.7em;
-  max-height: 400px;
+  max-height: 750px;
   overflow-y: auto;
   min-height: 220px;
 }
