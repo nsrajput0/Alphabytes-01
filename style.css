@@ -1130,7 +1130,7 @@ body > footer {
 }
 .study-info li {
   margin-bottom: 0.4em;
-  color: var(--accent2);
+  color: var(--text);
 }
 .study-info p{
   word-spacing: 2px;
