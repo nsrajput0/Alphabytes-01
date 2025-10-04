@@ -161,11 +161,8 @@ function getUserLocation() {
       locDiv.textContent = "Location unavailable.";
       if (tempDiv) tempDiv.textContent = "";
       if (timeDiv) timeDiv.textContent = "";
-      // Show unavailable for air/soil too
       const airDiv = document.getElementById('air-quality-content');
       if (airDiv) airDiv.textContent = 'Air quality data unavailable.';
-      const soilDiv = document.getElementById('soil-quality-content');
-      if (soilDiv) soilDiv.textContent = 'Soil quality data unavailable.';
     }
   );
 }
@@ -179,10 +176,8 @@ function renderMap() {
       attribution: '&copy; OpenStreetMap contributors'
     }).addTo(window.leafletMap);
   }
-  // Remove old markers
   eventMarkers.forEach(m => window.leafletMap.removeLayer(m));
   eventMarkers = [];
-  // Add event markers
   eonetEvents.slice(0, 8).forEach(ev => {
     const coords = ev.geometry[0]?.coordinates;
     if (coords && coords.length === 2) {
@@ -205,7 +200,6 @@ function fetchAPOD() {
   fetch('https://api.nasa.gov/planetary/apod?api_key=4pikVJsdIWZvaOuqMzzskcOXkFz2MMb4lL95xNlW')
     .then(r => r.json())
     .then(data => {
-      // Fallback to sample if required fields are missing or if url is not an image
       if (
         !data ||
         !data.url ||

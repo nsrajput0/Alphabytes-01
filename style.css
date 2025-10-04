@@ -473,7 +473,6 @@ a:hover {
   font-weight: 700;
 }
 
-/* Rocket Launch Video Overlay Styles */
 #rocket-video-overlay {
   position: fixed;
   top: 0; left: 0; right: 0; bottom: 0;
@@ -484,7 +483,6 @@ a:hover {
   justify-content: center;
 }
 
-/* Make smoke canvas full width and height */
 #rocket-smoke-canvas {
   position: absolute;
   left: 0;
@@ -496,7 +494,6 @@ a:hover {
   display: block;
 }
 
-/* --- Solar System Section --- */
 .solar-system-container {
   background: var(--glass-bg);
   backdrop-filter: var(--glass-blur);
@@ -724,7 +721,6 @@ nav a {
   font-weight: 500;
   padding: 0.3em 0.7em;
   border-radius: 4px;
-  /* transition: background 0.2s; */
 }
 
 nav a.active, nav a:hover {
@@ -1085,8 +1081,6 @@ a:hover {
 #quiz-result {
   color: var(--success);
 }
-
-/* Sprinkles background effect */
 .sprinkles-bg {
   position: fixed;
   z-index: 0;
@@ -1105,12 +1099,10 @@ a:hover {
   border-radius: 50%;
   opacity: 0.7;
   pointer-events: none;
-  /* Color and size set inline by JS */
   transition: box-shadow 0.2s;
   box-shadow: 0 0 8px var(--accent2);
 }
 
-/* Raise main content above sprinkles */
 body > header,
 body > main,
 body > footer {
@@ -1236,4 +1228,3 @@ body::before {
     max-width: 98vw;
     height: auto;
   }
-}

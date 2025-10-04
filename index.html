@@ -603,7 +603,6 @@ Result: Astronauts survived. <br>
           ctx.fill();
           ctx.restore();
 
-          // Fins (accent)
           ctx.beginPath();
           ctx.moveTo(-rocketWidth/2, -rocketHeight*0.2);
           ctx.lineTo(-rocketWidth*0.9, 0);
@@ -620,7 +619,6 @@ Result: Astronauts survived. <br>
           ctx.fillStyle = "#3ec6e0";
           ctx.fill();
 
-          // Decorative stripe (horizontal, secondary)
           ctx.beginPath();
           ctx.rect(-rocketWidth/2, -rocketHeight*0.45, rocketWidth, rocketHeight*0.09);
           ctx.fillStyle = "#a3b9cc";
@@ -628,7 +626,6 @@ Result: Astronauts survived. <br>
           ctx.fill();
           ctx.globalAlpha = 1;
 
-          // --- Flame (big, animated, realistic) ---
           var flameLen = rocketHeight*0.55 + Math.sin(frame/2)*rocketHeight*0.12;
           ctx.save();
           ctx.beginPath();
@@ -654,7 +651,6 @@ Result: Astronauts survived. <br>
           ctx.restore();
         }
 
-        // --- Fire Particle Drawing ---
         function drawFire() {
           for (var i=0; i<fireParticles.length; i++) {
             var p = fireParticles[i];
@@ -678,7 +674,6 @@ Result: Astronauts survived. <br>
           fireParticles = fireParticles.filter(p => p.alpha > 0.05);
         }
 
-        // --- Smoke Particle Drawing ---
         function drawSmoke() {
           smokeCtx.clearRect(0, 0, w, h);
           drawFire();
@@ -703,25 +698,21 @@ Result: Astronauts survived. <br>
           smokeParticles = smokeParticles.filter(p => p.alpha > 0.05);
         }
 
-        // --- Animation Loop ---
         function animateRocket() {
           ctx.clearRect(0, 0, w, h);
 
-          // Fade out everything after launch
           var overlay = document.getElementById('rocket-video-overlay');
           if (!launchPhase && fadeOutFrame < 60) {
             overlay.style.opacity = (1 - fadeOutFrame/60).toFixed(2);
             fadeOutFrame++;
           }
 
-          // Draw rocket
           if (launchPhase || fadeOutFrame < 60) {
             drawRocket(rocketX, rocketY);
           }
 
-          // Add fire and smoke particles at rocket base
           if (launchPhase && rocketY > 0) {
-            for (var i=0; i<22; i++) { // lots of fire
+            for (var i=0; i<22; i++) { 
               fireParticles.push({
                 x: rocketX + (Math.random()-0.5)*rocketWidth*1.2,
                 y: rocketY + rocketHeight*0.1 + Math.random()*18,
@@ -744,23 +735,18 @@ Result: Astronauts survived. <br>
           }
           drawSmoke();
 
-          // Move rocket up
           if (launchPhase) {
-            // Detect phone mode (mobile)
             var isMobile = window.innerWidth <= 700 || window.innerHeight <= 700;
             var baseSpeed = h * 0.012 + Math.max(0, Math.sin(frame/12))*h*0.004;
-            // On phone, make rocket much faster (relative to height)
             var speed = isMobile ? h * 0.028 + Math.max(0, Math.sin(frame/8))*h*0.008 : baseSpeed;
             rocketY -= speed;
             frame++;
-            // End launch phase when rocket leaves screen
             if (rocketY < -rocketHeight*2) {
               launchPhase = false;
               fadeOutFrame = 0;
             }
           }
 
-          // Fade out overlay and smoke naturally
           if (!launchPhase && fadeOutFrame >= 60) {
             overlay.style.transition = "opacity 1.2s";
             overlay.style.opacity = 0;
@@ -776,22 +762,17 @@ Result: Astronauts survived. <br>
         animateRocket();
       }
     });
-  </script>
-  <script>
-    // Responsive navbar toggle
     document.addEventListener('DOMContentLoaded', function() {
       var navToggle = document.querySelector('.nav-toggle');
       var navMenu = document.querySelector('nav ul');
       navToggle.addEventListener('click', function() {
         navMenu.classList.toggle('show');
       });
-      // Close menu on link click (mobile)
       navMenu.querySelectorAll('a').forEach(function(link) {
         link.addEventListener('click', function() {
           if(window.innerWidth <= 700) navMenu.classList.remove('show');
         });
       });
-      // Optional: close menu on outside click
       document.addEventListener('click', function(e) {
         if(window.innerWidth > 700) return;
         if(!navMenu.contains(e.target) && !navToggle.contains(e.target)) {
@@ -799,9 +780,6 @@ Result: Astronauts survived. <br>
         }
       });
     });
-  </script>
-  <script>
-    // Responsive solar system canvas (if using JS for rendering)
     window.addEventListener('DOMContentLoaded', function() {
       function resizeSolarCanvas() {
         var el = document.getElementById('solar-system-canvas');
@@ -809,15 +787,11 @@ Result: Astronauts survived. <br>
           var rect = el.getBoundingClientRect();
           el.width = rect.width;
           el.height = rect.height;
-          // Optionally: re-render solar system here if needed
         }
       }
       resizeSolarCanvas();
       window.addEventListener('resize', resizeSolarCanvas);
     });
-  </script>
-  <script>
-  // Air Quality Summary Logic
   function summarizeAirQuality(aqi) {
     if (aqi === null || aqi === undefined) return "Unknown";
     if (aqi <= 50) return "Good";
@@ -836,7 +810,6 @@ Result: Astronauts survived. <br>
   document.getElementById('air-quality-content').innerHTML = content;
 }
 
-  // Fetch air quality data using OpenAQ API and browser geolocation
   function fetchAirQuality() {
     if (!navigator.geolocation) {
       updateAirQualitySection(null, "Location not available.");
@@ -845,7 +818,6 @@ Result: Astronauts survived. <br>
     navigator.geolocation.getCurrentPosition(function(pos) {
       var lat = pos.coords.latitude;
       var lon = pos.coords.longitude;
-      // OpenAQ API for nearest measurements
       fetch(`https://api.openaq.org/v2/latest?coordinates=${lat},${lon}&radius=10000&limit=1`)
         .then(res => res.json())
         .then(data => {
@@ -870,12 +842,7 @@ Result: Astronauts survived. <br>
       updateAirQualitySection(null, "Location access denied.");
     });
   }
-
-  // Auto-fetch air quality on page load
   window.addEventListener('DOMContentLoaded', fetchAirQuality);
-  </script>
-  <script>
-  // Dropdown menu logic for Study NASA nav
   document.addEventListener('DOMContentLoaded', function() {
     var dropdown = document.querySelector('.dropdown');
     var dropdownMenu = dropdown.querySelector('.dropdown-menu');
@@ -883,7 +850,6 @@ Result: Astronauts survived. <br>
     var mainSections = document.querySelectorAll('.main-section');
     var studySubsections = document.querySelectorAll('.study-subsection');
 
-    // Helper: show only one study subsection
     function showStudySubsection(name) {
       studySubsections.forEach(function(sec) {
         sec.style.display = 'none';
@@ -892,7 +858,6 @@ Result: Astronauts survived. <br>
       if (section) section.style.display = '';
     }
 
-    // Show dropdown on hover (desktop)
     dropdown.addEventListener('mouseenter', function() {
       dropdownMenu.style.display = 'block';
     });
@@ -900,29 +865,25 @@ Result: Astronauts survived. <br>
       dropdownMenu.style.display = 'none';
     });
 
-    // Toggle dropdown on click (mobile)
     dropdown.querySelector('.nav-link').addEventListener('click', function(e) {
       e.preventDefault();
       dropdownMenu.style.display = dropdownMenu.style.display === 'block' ? 'none' : 'block';
     });
 
-    // Dropdown menu item click
     dropdownMenu.querySelectorAll('.study-dropdown-link').forEach(function(link) {
       link.addEventListener('click', function(e) {
         e.preventDefault();
-        // Hide all main sections, show Study NASA
         mainSections.forEach(function(sec) { sec.style.display = 'none'; });
         studySection.style.display = '';
-        // Show correct subsection
+        
         showStudySubsection(link.getAttribute('data-study'));
-        // Hide dropdown
+        
         dropdownMenu.style.display = 'none';
       });
     });
 
-    // When Study NASA section is shown (from nav), default to History
     document.querySelector('a[data-section="study"]').addEventListener('click', function(e) {
-      // Only run if not from dropdown menu
+    
       if (!e.target.classList.contains('study-dropdown-link')) {
         mainSections.forEach(function(sec) { sec.style.display = 'none'; });
         studySection.style.display = '';
@@ -932,28 +893,21 @@ Result: Astronauts survived. <br>
       }
     });
 
-    // Button selector logic inside Study NASA section
     document.querySelectorAll('.study-section-btn').forEach(function(btn) {
       btn.addEventListener('click', function() {
         showStudySubsection(btn.getAttribute('data-study'));
       });
     });
-
-    // On page load, default to showing History subsection if Study NASA is shown
     if (studySection.style.display !== 'none') {
       showStudySubsection('history');
     }
   });
-  </script>
-  <script>
-    // Quiz section: use APOD paragraph for quiz
     document.addEventListener('DOMContentLoaded', function() {
       fetch('https://api.nasa.gov/planetary/apod?api_key=Vt29Ma0AF0QNw8kbzKlbFH0vmtYMSBGgHG3rZJab')
         .then(res => res.json())
         .then(data => {
           document.getElementById('quiz-paragraph').textContent = data.explanation;
 
-          // Generate quiz questions from APOD data
           var questions = [
             {
               q: "What is the title of today's Astronomy Picture of the Day?",
@@ -1028,114 +982,6 @@ Result: Astronauts survived. <br>
           };
         });
     });
-  </script>
-  <script>
-// Chatbot Q&A logic (JSON-based)
-const chatbotQA = [
-  {
-    q: ["what is earthlens", "what does earthlens do", "about earthlens", "what is this website"],
-    a: "EarthLens is a citizen science dashboard that lets you explore NASA's open data about Earth and Space, including live natural events, air quality, solar system info, and more."
-  },
-  {
-    q: ["how do i see nasa events", "show me nasa events", "natural events", "dashboard events"],
-    a: "Go to the Dashboard section to see recent NASA-tracked natural events like wildfires, floods, storms, and volcanoes. You can also view them on the interactive map."
-  },
-  {
-    q: ["what is apod", "astronomy picture of the day", "space image", "today's space image"],
-    a: "APOD stands for Astronomy Picture of the Day. Each day, NASA shares a stunning space image with an explanation. You can see it on the Home and Dashboard sections."
-  },
-  {
-    q: ["how do i check air quality", "air quality", "is my air clean", "dashboard air quality"],
-    a: "The Dashboard section shows your local air quality using open data. It includes PM2.5, PM10, carbon monoxide, and ozone levels."
-  },
-  {
-    q: ["solar system", "show me planets", "solar system model", "planets info"],
-    a: "Visit the Solar System section for an interactive model. Click on any planet or the Sun to learn facts about them."
-  },
-  {
-    q: ["quiz", "nasa quiz", "how to play quiz", "test my knowledge"],
-    a: "Go to the Quiz section to answer questions generated from NASA's Astronomy Picture of the Day. Submit your answers to see your score."
-  },
-  {
-    q: ["study nasa", "nasa history", "nasa achievements", "nasa failures"],
-    a: "The Study NASA section lets you learn about NASA's history, achievements, and failures. You can also find links to official NASA resources."
-  },
-  {
-    q: ["resources", "api", "where does data come from", "data sources"],
-    a: "EarthLens uses NASA EONET, APOD, OpenAQ, Open-Meteo, SoilGrids, and NASA News APIs for live data. See the About section for more details."
-  },
-  {
-    q: ["who made this", "team", "challenge", "space apps"],
-    a: "This dashboard was made by AlphaBytes Team for the NASA Space Apps Challenge 2025."
-  }
-];
-
-// Utility: Find best answer for a question
-function chatbotFindAnswer(userQ) {
-  const qNorm = userQ.trim().toLowerCase();
-  for (const qa of chatbotQA) {
-    for (const q of qa.q) {
-      if (qNorm.includes(q)) return qa.a;
-    }
-  }
-  // Fallback: Only answer questions about the website
-  if (
-    qNorm.includes("nasa") ||
-    qNorm.includes("dashboard") ||
-    qNorm.includes("solar system") ||
-    qNorm.includes("apod") ||
-    qNorm.includes("quiz") ||
-    qNorm.includes("event") ||
-    qNorm.includes("air quality") ||
-    qNorm.includes("resources") ||
-    qNorm.includes("earthlens")
-  ) {
-    return "Sorry, I can only answer questions about EarthLens, NASA data, dashboard features, solar system, quiz, and resources. Try asking about those!";
-  }
-  return "Sorry, I can only answer questions related to this website (EarthLens, NASA data, dashboard, solar system, quiz, resources).";
-}
-
-// Chatbot UI logic
-document.addEventListener('DOMContentLoaded', function() {
-  const chatbotToggle = document.getElementById('chatbot-toggle');
-  const chatbotWindow = document.getElementById('chatbot-window');
-  const chatbotForm = document.getElementById('chatbot-form');
-  const chatbotInput = document.getElementById('chatbot-input');
-  const chatbotMessages = document.getElementById('chatbot-messages');
-  const chatbotClose = document.getElementById('chatbot-close');
-
-  chatbotToggle.onclick = function() {
-    chatbotWindow.style.display = 'flex';
-    chatbotToggle.style.display = 'none';
-    chatbotInput.focus();
-    chatbotMessages.innerHTML = '<div style="margin-bottom:0.7em;">👋 Hi! Ask me anything about EarthLens, NASA data, dashboard, solar system, quiz, or resources.</div>';
-  };
-  chatbotClose.onclick = function() {
-    chatbotWindow.style.display = 'none';
-    chatbotToggle.style.display = '';
-  };
-  chatbotForm.onsubmit = function(e) {
-    e.preventDefault();
-    const userQ = chatbotInput.value.trim();
-    if (!userQ) return;
-    const userMsg = document.createElement('div');
-    userMsg.style = "margin:0.5em 0;text-align:right;";
-    userMsg.innerHTML = `<span style="background:#7c4dff;color:#fff;padding:0.5em 1em;border-radius:2em;display:inline-block;">${userQ}</span>`;
-    chatbotMessages.appendChild(userMsg);
-
-    const botA = chatbotFindAnswer(userQ);
-    setTimeout(() => {
-      const botMsg = document.createElement('div');
-      botMsg.style = "margin:0.5em 0;text-align:left;";
-      botMsg.innerHTML = `<span style="background:#23243a;color:#e0e6ed;padding:0.5em 1em;border-radius:2em;display:inline-block;">${botA}</span>`;
-      chatbotMessages.appendChild(botMsg);
-      chatbotMessages.scrollTop = chatbotMessages.scrollHeight;
-    }, 400);
-
-    chatbotInput.value = '';
-    chatbotMessages.scrollTop = chatbotMessages.scrollHeight;
-  };
-});
   </script>
 </body>
 </html>
