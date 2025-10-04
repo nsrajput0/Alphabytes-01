@@ -62,7 +62,7 @@ nav {
   padding: 1.2rem 2.2rem;
   background: var(--glass-bg);
   backdrop-filter: var(--glass-blur);
-  border-radius: 0 0 var(--radius) var(--radius);
+  border-radius: 0 0 12px 12px;
   box-shadow: var(--shadow);
   position: relative;
   border-bottom: 2px solid var(--accent2);
@@ -334,7 +334,6 @@ nav .nav-toggle span {
   transition: box-shadow 0.2s, border-left 0.2s;
 }
 .event-card:hover {
-  box-shadow: 0 8px 32px var(--accent);
   border-left: 8px solid var(--accent2);
 }
 .event-category {
