@@ -122,10 +122,16 @@ function getUserLocation() {
     pos => {
       const {latitude, longitude} = pos.coords;
       locDiv.textContent = `Lat: ${latitude.toFixed(3)}, Lon: ${longitude.toFixed(3)}`;
-     
+
+      // --- Make user's local time tick every second ---
       if (timeDiv) {
-        const now = new Date();
-        timeDiv.textContent = "Local Time: " + now.toLocaleString();
+        if (window._localTimeInterval) clearInterval(window._localTimeInterval);
+        function updateLocalTime() {
+          const now = new Date();
+          timeDiv.textContent = "Local Time: " + now.toLocaleString();
+        }
+        updateLocalTime();
+        window._localTimeInterval = setInterval(updateLocalTime, 1000);
       }
       if (tempDiv) {
         fetch(`https://api.open-meteo.com/v1/forecast?latitude=${latitude}&longitude=${longitude}&current_weather=true`)
@@ -155,9 +161,18 @@ function getUserLocation() {
     err => {
       locDiv.textContent = "Location unavailable.";
       if (tempDiv) tempDiv.textContent = "";
-      if (timeDiv) timeDiv.textContent = "";
+      if (timeDiv) {
+        timeDiv.textContent = "";
+        if (window._localTimeInterval) {
+          clearInterval(window._localTimeInterval);
+          window._localTimeInterval = null;
+        }
+      }
+      // ...existing code...
       const airDiv = document.getElementById('air-quality-content');
       if (airDiv) airDiv.textContent = 'Air quality data unavailable.';
+      const soilDiv = document.getElementById('soil-quality-content');
+      if (soilDiv) soilDiv.textContent = 'Soil quality data unavailable.';
     }
   );
 }
@@ -490,7 +505,6 @@ document.addEventListener('DOMContentLoaded', () => {
     h = window.innerHeight;
     canvas.width = w;
     canvas.height = h;
-    // Optionally reposition stars on resize
     for (const star of stars) {
       star.x = Math.random() * w;
       star.y = Math.random() * h;
@@ -511,11 +525,25 @@ function fetchAirAndSoilQuality(lat, lon) {
       .then(data => {
         const h = data.hourly || {};
         const idx = h.time ? h.time.length - 1 : 0;
+        const pm25 = h.pm2_5 ? h.pm2_5[idx] : null;
+        const pm10 = h.pm10 ? h.pm10[idx] : null;
+        // Determine AQI condition
+        let aqi = pm25 !== undefined && pm25 !== null ? pm25 : (pm10 !== undefined && pm10 !== null ? pm10 : null);
+        let condition = "Unknown";
+        if (aqi !== null) {
+          if (aqi <= 50) condition = "Good";
+          else if (aqi <= 100) condition = "Moderate";
+          else if (aqi <= 150) condition = "Unhealthy for Sensitive Groups";
+          else if (aqi <= 200) condition = "Unhealthy";
+          else if (aqi <= 300) condition = "Very Unhealthy";
+          else condition = "Hazardous";
+        }
         airDiv.innerHTML = `
-          <b>PM2.5:</b> ${h.pm2_5 ? h.pm2_5[idx] + ' µg/m³' : 'N/A'}<br>
-          <b>PM10:</b> ${h.pm10 ? h.pm10[idx] + ' µg/m³' : 'N/A'}<br>
+          <b>PM2.5:</b> ${pm25 !== undefined && pm25 !== null ? pm25 + ' µg/m³' : 'N/A'}<br>
+          <b>PM10:</b> ${pm10 !== undefined && pm10 !== null ? pm10 + ' µg/m³' : 'N/A'}<br>
           <b>CO:</b> ${h.carbon_monoxide ? h.carbon_monoxide[idx] + ' µg/m³' : 'N/A'}<br>
-          <b>Ozone:</b> ${h.ozone ? h.ozone[idx] + ' µg/m³' : 'N/A'}
+          <b>Ozone:</b> ${h.ozone ? h.ozone[idx] + ' µg/m³' : 'N/A'}<br>
+          <b>Condition:</b> <span style="color:${condition === 'Good' ? '#3ee07a' : condition === 'Moderate' ? '#ffd700' : condition.includes('Unhealthy') ? '#e05c3e' : '#d32f2f'}">${condition}</span>
         `;
       })
       .catch(() => {
@@ -560,9 +588,15 @@ function getUserLocation() {
     pos => {
       const {latitude, longitude} = pos.coords;
       locDiv.textContent = `Lat: ${latitude.toFixed(3)}, Lon: ${longitude.toFixed(3)}`;
+      // --- Make user's local time tick every second ---
       if (timeDiv) {
-        const now = new Date();
-        timeDiv.textContent = "Local Time: " + now.toLocaleString();
+        if (window._localTimeInterval) clearInterval(window._localTimeInterval);
+        function updateLocalTime() {
+          const now = new Date();
+          timeDiv.textContent = "Local Time: " + now.toLocaleString();
+        }
+        updateLocalTime();
+        window._localTimeInterval = setInterval(updateLocalTime, 1000);
       }
       // Weather API 
       if (tempDiv) {
@@ -594,7 +628,13 @@ function getUserLocation() {
     err => {
       locDiv.textContent = "Location unavailable.";
       if (tempDiv) tempDiv.textContent = "";
-      if (timeDiv) timeDiv.textContent = "";
+      if (timeDiv) {
+        timeDiv.textContent = "";
+        if (window._localTimeInterval) {
+          clearInterval(window._localTimeInterval);
+          window._localTimeInterval = null;
+        }
+      }
       // Show unavailable for air/soil too
       const airDiv = document.getElementById('air-quality-content');
       if (airDiv) airDiv.textContent = 'Air quality data unavailable.';
