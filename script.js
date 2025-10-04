@@ -121,6 +121,28 @@ function getUserLocation() {
   navigator.geolocation.getCurrentPosition(
     pos => {
       const {latitude, longitude} = pos.coords;
+      // Fix: Ensure coordinates are valid numbers and not undefined/null
+      if (
+        typeof latitude !== "number" ||
+        typeof longitude !== "number" ||
+        isNaN(latitude) ||
+        isNaN(longitude)
+      ) {
+        locDiv.textContent = "Location unavailable.";
+        if (tempDiv) tempDiv.textContent = "";
+        if (timeDiv) {
+          timeDiv.textContent = "";
+          if (window._localTimeInterval) {
+            clearInterval(window._localTimeInterval);
+            window._localTimeInterval = null;
+          }
+        }
+        const airDiv = document.getElementById('air-quality-content');
+        if (airDiv) airDiv.textContent = 'Air quality data unavailable.';
+        const soilDiv = document.getElementById('soil-quality-content');
+        if (soilDiv) soilDiv.textContent = 'Soil quality data unavailable.';
+        return;
+      }
       locDiv.textContent = `Lat: ${latitude.toFixed(3)}, Lon: ${longitude.toFixed(3)}`;
 
       // --- Make user's local time tick every second ---
@@ -150,8 +172,8 @@ function getUserLocation() {
       fetchAirAndSoilQuality(latitude, longitude);
 
       if (window.leafletMap) {
-        if (userMarker) window.leafletMap.removeLayer(userMarker);
-        userMarker = L.marker([latitude, longitude], {title: "You"})
+        if (window.userMarker) window.leafletMap.removeLayer(window.userMarker);
+        window.userMarker = L.marker([latitude, longitude], {title: "You"})
           .addTo(window.leafletMap)
           .bindPopup("Your Location")
           .openPopup();
@@ -168,7 +190,6 @@ function getUserLocation() {
           window._localTimeInterval = null;
         }
       }
-      // ...existing code...
       const airDiv = document.getElementById('air-quality-content');
       if (airDiv) airDiv.textContent = 'Air quality data unavailable.';
       const soilDiv = document.getElementById('soil-quality-content');
@@ -298,38 +319,7 @@ function renderChart() {
 }
 
 // --- NASA News ---
-const sampleNews = [
-  {
-    title: "NASA's Artemis I Mega Moon Rocket Test Delayed",
-    published_date: "2024-06-01",
-    url: "https://www.nasa.gov/news-release/artemis-i-mega-moon-rocket-test-delayed",
-    summary: "NASA has delayed the Artemis I rocket test due to technical issues."
-  },
-  {
-    title: "NASA’s Perseverance Rover Begins the Hunt for Ancient Life on Mars",
-    published_date: "2024-06-02",
-    url: "https://mars.nasa.gov/news/12345",
-    summary: "Perseverance rover starts searching for signs of ancient life on Mars."
-  },
-  {
-    title: "James Webb Space Telescope Sends Back Stunning Images",
-    published_date: "2024-06-03",
-    url: "https://www.nasa.gov/feature/james-webb-space-telescope-sends-back-stunning-images",
-    summary: "NASA's James Webb Space Telescope has captured breathtaking new images of distant galaxies."
-  },
-  {
-    title: "NASA Announces New Moon Mission Timeline",
-    published_date: "2024-06-04",
-    url: "https://www.nasa.gov/news-release/nasa-announces-new-moon-mission-timeline",
-    summary: "NASA has updated its timeline for the next crewed mission to the Moon under the Artemis program."
-  },
-  {
-    title: "NASA and ESA Collaborate on Mars Sample Return",
-    published_date: "2024-06-05",
-    url: "https://www.nasa.gov/feature/nasa-and-esa-collaborate-on-mars-sample-return",
-    summary: "NASA and the European Space Agency are working together to bring samples from Mars back to Earth."
-  }
-];
+
 
 function fetchNASANews() {
   fetch('https://api.rss2json.com/v1/api.json?rss_url=https://www.nasa.gov/rss/dyn/breaking_news.rss')
@@ -587,7 +577,30 @@ function getUserLocation() {
   navigator.geolocation.getCurrentPosition(
     pos => {
       const {latitude, longitude} = pos.coords;
+      // Fix: Ensure coordinates are valid numbers and not undefined/null
+      if (
+        typeof latitude !== "number" ||
+        typeof longitude !== "number" ||
+        isNaN(latitude) ||
+        isNaN(longitude)
+      ) {
+        locDiv.textContent = "Location unavailable.";
+        if (tempDiv) tempDiv.textContent = "";
+        if (timeDiv) {
+          timeDiv.textContent = "";
+          if (window._localTimeInterval) {
+            clearInterval(window._localTimeInterval);
+            window._localTimeInterval = null;
+          }
+        }
+        const airDiv = document.getElementById('air-quality-content');
+        if (airDiv) airDiv.textContent = 'Air quality data unavailable.';
+        const soilDiv = document.getElementById('soil-quality-content');
+        if (soilDiv) soilDiv.textContent = 'Soil quality data unavailable.';
+        return;
+      }
       locDiv.textContent = `Lat: ${latitude.toFixed(3)}, Lon: ${longitude.toFixed(3)}`;
+
       // --- Make user's local time tick every second ---
       if (timeDiv) {
         if (window._localTimeInterval) clearInterval(window._localTimeInterval);
@@ -598,7 +611,6 @@ function getUserLocation() {
         updateLocalTime();
         window._localTimeInterval = setInterval(updateLocalTime, 1000);
       }
-      // Weather API 
       if (tempDiv) {
         fetch(`https://api.open-meteo.com/v1/forecast?latitude=${latitude}&longitude=${longitude}&current_weather=true`)
           .then(r => r.json())
@@ -613,12 +625,11 @@ function getUserLocation() {
             tempDiv.textContent = "Temperature: N/A";
           });
       }
-      // Fetch Air 
       fetchAirAndSoilQuality(latitude, longitude);
 
       if (window.leafletMap) {
-        if (userMarker) window.leafletMap.removeLayer(userMarker);
-        userMarker = L.marker([latitude, longitude], {title: "You"})
+        if (window.userMarker) window.leafletMap.removeLayer(window.userMarker);
+        window.userMarker = L.marker([latitude, longitude], {title: "You"})
           .addTo(window.leafletMap)
           .bindPopup("Your Location")
           .openPopup();
@@ -635,7 +646,6 @@ function getUserLocation() {
           window._localTimeInterval = null;
         }
       }
-      // Show unavailable for air/soil too
       const airDiv = document.getElementById('air-quality-content');
       if (airDiv) airDiv.textContent = 'Air quality data unavailable.';
       const soilDiv = document.getElementById('soil-quality-content');
