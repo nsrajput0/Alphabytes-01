@@ -21,12 +21,11 @@ document.querySelectorAll('.nav-link').forEach(link => {
       startQuiz();
     }
     if (section === 'solar-system') {
-      setTimeout(renderSolarSystem, 100); // Wait for section to show
+      setTimeout(renderSolarSystem, 100); 
     }
   });
 });
 
-// --- Dashboard Logic ---
 let dashboardLoaded = false;
 function loadDashboard() {
   if (dashboardLoaded) return;
@@ -37,7 +36,6 @@ function loadDashboard() {
   fetchNASANews();
 }
 
-// --- EONET Events ---
 let eonetEvents = [];
 let eonetCategories = {};
 const sampleEvents = [
@@ -109,7 +107,6 @@ function renderEvents() {
   });
 }
 
-// --- User Location + Weather + DateTime ---
 let userMarker = null;
 function getUserLocation() {
   const locDiv = document.getElementById('user-location');
@@ -125,12 +122,11 @@ function getUserLocation() {
     pos => {
       const {latitude, longitude} = pos.coords;
       locDiv.textContent = `Lat: ${latitude.toFixed(3)}, Lon: ${longitude.toFixed(3)}`;
-      // Show local date/time
+     
       if (timeDiv) {
         const now = new Date();
         timeDiv.textContent = "Local Time: " + now.toLocaleString();
       }
-      // Weather API (Open-Meteo, no key)
       if (tempDiv) {
         fetch(`https://api.open-meteo.com/v1/forecast?latitude=${latitude}&longitude=${longitude}&current_weather=true`)
           .then(r => r.json())
@@ -145,7 +141,6 @@ function getUserLocation() {
             tempDiv.textContent = "Temperature: N/A";
           });
       }
-      // Fetch Air and Soil Quality
       fetchAirAndSoilQuality(latitude, longitude);
 
       if (window.leafletMap) {
@@ -167,7 +162,6 @@ function getUserLocation() {
   );
 }
 
-// --- Leaflet Map ---
 let eventMarkers = [];
 function renderMap() {
   if (!window.leafletMap) {
@@ -190,7 +184,6 @@ function renderMap() {
   });
 }
 
-// --- APOD ---
 const sampleAPOD = {
   url: "https://apod.nasa.gov/apod/image/2406/NGC6188_HaLRGBpugh1024.jpg",
   title: "NGC 6188: The Dragons of Ara",
@@ -223,7 +216,6 @@ function fetchAPOD() {
 function renderAPOD(data) {
   const apodDiv = document.getElementById('apod-content');
   if (!apodDiv) return;
-  // Always use a valid image URL, fallback to sample if not image or missing
   let url = sampleAPOD.url;
   if (data.media_type === "image" && (data.hdurl || data.url)) {
     url = data.hdurl || data.url;
@@ -242,7 +234,6 @@ function renderAPOD(data) {
 function renderHomeAPOD(data) {
   const homeApod = document.getElementById('home-apod-img');
   if (!homeApod) return;
-  // Always use a valid image URL, fallback to sample if not image or missing
   let url = sampleAPOD.url;
   if (data.media_type === "image" && (data.hdurl || data.url)) {
     url = data.hdurl || data.url;
@@ -326,7 +317,6 @@ const sampleNews = [
 ];
 
 function fetchNASANews() {
-  // Use NASA Breaking News RSS feed via rss2json proxy
   fetch('https://api.rss2json.com/v1/api.json?rss_url=https://www.nasa.gov/rss/dyn/breaking_news.rss')
     .then(r => r.json())
     .then(data => {
@@ -336,7 +326,7 @@ function fetchNASANews() {
           title: item.title,
           published_date: item.pubDate ? item.pubDate.split(' ')[0] : '',
           url: item.link,
-          summary: item.description.replace(/<[^>]+>/g, '') // Remove HTML tags
+          summary: item.description.replace(/<[^>]+>/g, '') 
         }));
         renderNASANews(newsArr);
       } else {
@@ -402,17 +392,15 @@ function showHomeExtras() {
     const idx = Math.floor(Math.random() * nasaFacts.length);
     factDiv.textContent = nasaFacts[idx];
   }
-  // APOD preview is handled by fetchAPOD, which is called only once on load
 }
 
 // --- Quiz Section ---
-// Remove all static quiz logic and paragraphs
 
 // --- Sprinkles Background ---
 function createSprinkles() {
   const sprinkleColors = [
-    'rgba(62,198,224,0.7)', // accent
-    'rgba(163,185,204,0.5)', // secondary
+    'rgba(62,198,224,0.7)', 
+    'rgba(163,185,204,0.5)', 
     'rgba(255,255,255,0.13)',
     'rgba(62,224,122,0.4)',
     'rgba(224,92,62,0.4)'
@@ -437,17 +425,12 @@ function createSprinkles() {
 }
 window.addEventListener('resize', createSprinkles);
 document.addEventListener('DOMContentLoaded', () => {
-  // Show home by default
   document.querySelectorAll('.main-section').forEach(sec => {
     sec.style.display = (sec.id === 'home') ? 'block' : 'none';
   });
-  // Home page extras
   showHomeExtras();
-  // APOD preview for home (only call fetchAPOD once)
   fetchAPOD();
-  // Study section fact
   showRandomNASAFact();
-  // Next fact button
   const nextBtn = document.getElementById('next-nasa-fact');
   if (nextBtn) {
     nextBtn.onclick = () => {
@@ -458,7 +441,6 @@ document.addEventListener('DOMContentLoaded', () => {
   createSprinkles();
 });
 
-// ...existing code...
 
 // Twinkling stars background
 (function twinklingStars() {
@@ -521,7 +503,6 @@ document.addEventListener('DOMContentLoaded', () => {
 // --- Air and Soil Quality ---
 
 function fetchAirAndSoilQuality(lat, lon) {
-  // Air Quality (Open-Meteo, no API key needed)
   const airDiv = document.getElementById('air-quality-content');
   if (airDiv) {
     airDiv.textContent = 'Loading air quality...';
@@ -542,7 +523,7 @@ function fetchAirAndSoilQuality(lat, lon) {
       });
   }
 
-  // Soil Quality (SoilGrids REST API)
+  // Soil Quality
   const soilDiv = document.getElementById('soil-quality-content');
   if (soilDiv) {
     soilDiv.textContent = 'Loading soil quality...';
@@ -565,7 +546,6 @@ function fetchAirAndSoilQuality(lat, lon) {
   }
 }
 
-// --- Update getUserLocation to call Air/Soil fetch ---
 function getUserLocation() {
   const locDiv = document.getElementById('user-location');
   const tempDiv = document.getElementById('user-temp');
@@ -580,12 +560,11 @@ function getUserLocation() {
     pos => {
       const {latitude, longitude} = pos.coords;
       locDiv.textContent = `Lat: ${latitude.toFixed(3)}, Lon: ${longitude.toFixed(3)}`;
-      // Show local date/time
       if (timeDiv) {
         const now = new Date();
         timeDiv.textContent = "Local Time: " + now.toLocaleString();
       }
-      // Weather API (Open-Meteo, no key)
+      // Weather API 
       if (tempDiv) {
         fetch(`https://api.open-meteo.com/v1/forecast?latitude=${latitude}&longitude=${longitude}&current_weather=true`)
           .then(r => r.json())
@@ -600,7 +579,7 @@ function getUserLocation() {
             tempDiv.textContent = "Temperature: N/A";
           });
       }
-      // Fetch Air and Soil Quality
+      // Fetch Air 
       fetchAirAndSoilQuality(latitude, longitude);
 
       if (window.leafletMap) {
@@ -661,7 +640,7 @@ function renderSolarSystem() {
     `;
   };
 
-  // Planet data: [name, orbit radius(px), size(px), color, orbital period(seconds), info]
+  // Planet data
   const planets = [
     ['Mercury', 70, 8, '#b1b1b1', 4.8, {
       description: "Mercury is the closest planet to the Sun and the smallest in the Solar System.",
@@ -763,7 +742,6 @@ function renderSolarSystem() {
 
     canvas.appendChild(planet);
 
-    // Animate revolution
     function animatePlanet() {
       const now = Date.now() / 1000;
       const angle = ((now / period) * 2 * Math.PI) % (2 * Math.PI);
@@ -777,7 +755,6 @@ function renderSolarSystem() {
     }
     animatePlanet();
 
-    // --- Planet click handler ---
     planet.onclick = function () {
       const infoDiv = document.getElementById('planet-info');
       if (!infoDiv) return;
@@ -798,17 +775,15 @@ function renderSolarSystem() {
   });
 }
 
-// Show Solar System section on nav click
 document.querySelectorAll('.nav-link').forEach(link => {
   link.addEventListener('click', e => {
     const section = link.getAttribute('data-section');
     if (section === 'solar-system') {
-      setTimeout(renderSolarSystem, 100); // Wait for section to show
+      setTimeout(renderSolarSystem, 100); 
     }
   });
 });
 
-// --- Responsive Navbar Hamburger ---
 document.addEventListener('DOMContentLoaded', () => {
   const navToggle = document.getElementById('nav-toggle');
   const navUl = document.querySelector('nav ul');
@@ -816,7 +791,6 @@ document.addEventListener('DOMContentLoaded', () => {
     navToggle.classList.toggle('active');
     navUl.classList.toggle('open');
   });
-  // Close menu on link click (mobile)
   navUl.querySelectorAll('a').forEach(link => {
     link.addEventListener('click', () => {
       navToggle.classList.remove('active');

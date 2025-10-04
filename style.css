@@ -1,6 +1,3 @@
-/* --- More Interesting & Attractive UI --- */
-/* Add animated gradient background, glassmorphism, glowing accents, interactive hover effects, and playful cards */
-
 :root {
   --bg-gradient: linear-gradient(120deg, #23243a 0%, #6c63ff 100%);
   --glass-bg: rgba(255,255,255,0.08);

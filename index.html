@@ -516,7 +516,7 @@ Result: Astronauts survived. <br>
   </main>
 
   <footer>
-    <p>Made for NASA Space Apps Challenge 2025</p>
+    <p>Made for NASA Space Apps Challenge 2025 ~By Alphabytes</p>
   </footer>
 
   <!-- Leaflet JS -->
@@ -525,9 +525,7 @@ Result: Astronauts survived. <br>
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <script src="script.js"></script>
   <script>
-    // Show homepage after rocket animation ends
     window.addEventListener('DOMContentLoaded', function() {
-      // Stars background for rocket overlay
       var starsCanvas = document.getElementById('rocket-stars-bg');
       if (starsCanvas) {
         starsCanvas.width = window.innerWidth;
@@ -546,7 +544,6 @@ Result: Astronauts survived. <br>
         ctx.globalAlpha = 1;
       }
 
-      // Rocket launch animation
       var rocketCanvas = document.getElementById('rocket-launch-canvas');
       var smokeCanvas = document.getElementById('rocket-smoke-canvas');
       if (rocketCanvas && smokeCanvas) {
@@ -567,12 +564,10 @@ Result: Astronauts survived. <br>
         var launchPhase = true;
         var fadeOutFrame = 0;
 
-        // --- Themed Rocket Drawing ---
         function drawRocket(x, y) {
           ctx.save();
           ctx.translate(x, y);
 
-          // Body (gradient: accent to secondary)
           var bodyGrad = ctx.createLinearGradient(-rocketWidth/2, -rocketHeight, rocketWidth/2, 0);
           bodyGrad.addColorStop(0, "#3ec6e0");
           bodyGrad.addColorStop(1, "#23293a");
@@ -584,7 +579,6 @@ Result: Astronauts survived. <br>
           ctx.fill();
           ctx.shadowBlur = 0;
 
-          // Nose cone (secondary color)
           ctx.beginPath();
           ctx.moveTo(-rocketWidth/2, -rocketHeight);
           ctx.lineTo(0, -rocketHeight-rocketWidth*1.2);
@@ -593,7 +587,6 @@ Result: Astronauts survived. <br>
           ctx.fillStyle = "#a3b9cc";
           ctx.fill();
 
-          // Window (accent color, with glow)
           ctx.save();
           ctx.beginPath();
           ctx.arc(0, -rocketHeight*0.7, rocketWidth*0.22, 0, 2*Math.PI);
@@ -722,7 +715,7 @@ Result: Astronauts survived. <br>
                 vy: 2.5 + Math.random()*1.2
               });
             }
-            for (var i=0; i<18; i++) { // lots of smoke
+            for (var i=0; i<18; i++) { 
               smokeParticles.push({
                 x: rocketX + (Math.random()-0.5)*rocketWidth*1.5,
                 y: rocketY + rocketHeight*0.1 + Math.random()*22,
