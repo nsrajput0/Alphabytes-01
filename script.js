@@ -1,3 +1,4 @@
+
 document.querySelectorAll('.nav-link').forEach(link => {
   link.addEventListener('click', e => {
     e.preventDefault();
@@ -536,27 +537,6 @@ function fetchAirAndSoilQuality(lat, lon) {
       })
       .catch(() => {
         airDiv.textContent = 'Air quality data unavailable.';
-      });
-  }
-
-  const soilDiv = document.getElementById('soil-quality-content');
-  if (soilDiv) {
-    soilDiv.textContent = 'Loading soil quality...';
-    fetch(`https://rest.isric.org/soilgrids/v2.0/properties/query?lon=${lon}&lat=${lat}&property=phh2o&property=ocd&property=soc&depth=0-5cm`)
-      .then(r => r.json())
-      .then(data => {
-        const props = data.properties || {};
-        const ph = props.phh2o?.values?.[0]?.value ?? 'N/A';
-        const soc = props.soc?.values?.[0]?.value ?? 'N/A';
-        const ocd = props.ocd?.values?.[0]?.value ?? 'N/A';
-        soilDiv.innerHTML = `
-          <b>Soil pH (0-5cm):</b> ${ph}<br>
-          <b>Soil Organic Carbon (SOC):</b> ${soc} g/kg<br>
-          <b>Organic Carbon Density (OCD):</b> ${ocd} t/ha
-        `;
-      })
-      .catch(() => {
-        soilDiv.textContent = 'Soil quality data unavailable.';
       });
   }
 }
