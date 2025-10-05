@@ -1,6 +1,6 @@
 :root {
   --bg-gradient: linear-gradient(120deg, #23243a 0%, #6c63ff 100%);
-  --glass-bg: rgba(255,255,255,0.08);
+  --glass-bg: rgba(255, 255, 255, 0.08);
   --glass-blur: blur(14px);
   --accent: #ff6584;
   --accent2: #6c63ff;
@@ -31,14 +31,22 @@ body {
 }
 
 @keyframes bgMove {
-  0% { background-position: 0% 0%; }
-  100% { background-position: 100% 100%; }
+  0% {
+    background-position: 0% 0%;
+  }
+
+  100% {
+    background-position: 100% 100%;
+  }
 }
 
 body::before {
   content: "";
   position: fixed;
-  top: 0; left: 0; width: 100vw; height: 100vh;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
   background: url('https://images.unsplash.com/photo-1465101046530-73398c7f28ca?auto=format&fit=crop&w=1200&q=80') center/cover;
   opacity: 0.13;
   z-index: 0;
@@ -74,9 +82,15 @@ nav {
   color: var(--text);
   letter-spacing: 2px;
 }
+
 @keyframes logoGlow {
-  0% { filter: drop-shadow(0 0 8px var(--accent)); }
-  100% { filter: drop-shadow(0 0 18px var(--accent2)); }
+  0% {
+    filter: drop-shadow(0 0 8px var(--accent));
+  }
+
+  100% {
+    filter: drop-shadow(0 0 18px var(--accent2));
+  }
 }
 
 nav ul {
@@ -100,7 +114,9 @@ nav a {
   background: var(--glass-bg);
   backdrop-filter: var(--glass-blur);
 }
-nav a.active, nav a:hover {
+
+nav a.active,
+nav a:hover {
   background: linear-gradient(90deg, var(--accent) 0%, var(--accent2) 100%);
   color: #fff;
   box-shadow: 0 2px 16px var(--accent2);
@@ -132,10 +148,13 @@ nav .nav-toggle span {
   nav {
     padding: 1.2rem 0.7rem;
   }
+
   nav ul {
     flex-direction: column;
     position: fixed;
-    top: 0; left: 0; right: 0;
+    top: 0;
+    left: 0;
+    right: 0;
     height: 100vh;
     width: 100vw;
     background: var(--glass-bg);
@@ -153,19 +172,23 @@ nav .nav-toggle span {
     padding: 0;
     transition: max-height 0.3s, opacity 0.3s;
   }
+
   nav ul.show {
     max-height: 100vh;
     opacity: 1;
     padding: 0;
   }
+
   nav .nav-toggle {
     display: block;
     z-index: 101;
   }
+
   nav ul li {
     width: 100%;
     text-align: center;
   }
+
   nav ul li a {
     font-size: 1.3em;
     padding: 0.7em 0;
@@ -182,8 +205,15 @@ nav .nav-toggle span {
 }
 
 @keyframes fadeIn {
-  from { opacity: 0; transform: translateY(30px);}
-  to { opacity: 1; transform: none;}
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+
+  to {
+    opacity: 1;
+    transform: none;
+  }
 }
 
 .hero-img {
@@ -195,6 +225,7 @@ nav .nav-toggle span {
   opacity: 0.92;
   border: 2px solid var(--accent2);
 }
+
 .home-extra {
   margin-top: 2.5rem;
   display: flex;
@@ -227,11 +258,13 @@ nav .nav-toggle span {
   transition: transform 0.2s, box-shadow 0.2s;
   position: relative;
 }
+
 .home-card:hover {
   transform: scale(1.05) rotate(-2deg);
   box-shadow: 0 8px 32px var(--accent2);
   border-color: var(--accent);
 }
+
 .home-card h3 {
   color: var(--accent2);
   margin-bottom: 0.5em;
@@ -246,6 +279,7 @@ nav .nav-toggle span {
   filter: drop-shadow(0 0 8px var(--accent));
   transition: filter 0.3s;
 }
+
 #home-apod-img img:hover {
   filter: drop-shadow(0 0 24px var(--accent2));
 }
@@ -264,6 +298,7 @@ nav .nav-toggle span {
   font-size: 1.15em;
   transition: box-shadow 0.2s, border-left 0.2s;
 }
+
 .home-cta:hover {
   box-shadow: 0 8px 32px var(--accent);
   border-left: 8px solid var(--accent2);
@@ -291,6 +326,7 @@ nav .nav-toggle span {
   transition: transform 0.2s, box-shadow 0.2s;
   position: relative;
 }
+
 .dashboard-card:hover {
   box-shadow: 0 8px 32px var(--accent2);
   border-color: var(--accent);
@@ -304,10 +340,13 @@ nav .nav-toggle span {
   .dashboard-grid {
     grid-template-columns: 1fr;
   }
+
   .map-card {
     grid-column: span 1;
   }
-  .home-extra, .home-cards {
+
+  .home-extra,
+  .home-cards {
     flex-direction: column;
     gap: 1.2rem;
   }
@@ -333,18 +372,22 @@ nav .nav-toggle span {
   box-shadow: 0 2px 12px var(--accent2);
   transition: box-shadow 0.2s, border-left 0.2s;
 }
+
 .event-card:hover {
   border-left: 8px solid var(--accent2);
 }
+
 .event-category {
   font-size: 1em;
   color: var(--accent2);
   margin-right: 0.7em;
 }
+
 .event-date {
   font-size: 0.97em;
   color: var(--secondary);
 }
+
 #user-location {
   font-size: 1.1em;
   color: var(--accent);
@@ -358,6 +401,7 @@ nav .nav-toggle span {
   filter: drop-shadow(0 0 8px var(--accent));
   transition: filter 0.3s;
 }
+
 #apod-content img:hover {
   filter: drop-shadow(0 0 24px var(--accent2));
 }
@@ -384,6 +428,7 @@ a {
   font-weight: 600;
   text-decoration: underline;
 }
+
 a:hover {
   color: var(--accent2);
   text-shadow: 0 2px 8px var(--accent);
@@ -393,6 +438,7 @@ a:hover {
   width: 8px;
   background: var(--glass-bg);
 }
+
 ::-webkit-scrollbar-thumb {
   background: var(--accent2);
   border-radius: 4px;
@@ -443,7 +489,8 @@ a:hover {
   margin-right: 2em;
 }
 
-#quiz-submit, #quiz-next-level {
+#quiz-submit,
+#quiz-next-level {
   background: linear-gradient(90deg, var(--accent2) 0%, var(--accent) 100%);
   color: #fff;
   border: none;
@@ -457,7 +504,9 @@ a:hover {
   transition: background 0.2s, color 0.2s;
   font-weight: 700;
 }
-#quiz-submit:hover, #quiz-next-level:hover {
+
+#quiz-submit:hover,
+#quiz-next-level:hover {
   background: #fff;
   color: var(--accent2);
 }
@@ -471,7 +520,10 @@ a:hover {
 
 #rocket-video-overlay {
   position: fixed;
-  top: 0; left: 0; right: 0; bottom: 0;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
   background: #372d42;
   z-index: 9999;
   display: flex;
@@ -505,6 +557,7 @@ a:hover {
   display: flex;
   align-items: center;
 }
+
 #solar-system-canvas {
   position: relative;
   width: 60vw;
@@ -517,34 +570,43 @@ a:hover {
   background: transparent;
   transition: width 0.3s, height 0.3s;
 }
+
 .solar-sun {
   position: absolute;
-  left: 50%; top: 50%;
-  width: 60px; height: 60px;
-  margin-left: -30px; margin-top: -30px;
+  left: 50%;
+  top: 50%;
+  width: 60px;
+  height: 60px;
+  margin-left: -30px;
+  margin-top: -30px;
   background: radial-gradient(circle, #ffd166 70%, #ff6f61 100%);
   border-radius: 50%;
   box-shadow: 0 0 60px 30px #ffd70055, 0 0 20px 10px #fff8;
   z-index: 10;
   border: 3px solid #ffd16699;
 }
+
 .solar-orbit {
   position: absolute;
-  left: 50%; top: 50%;
+  left: 50%;
+  top: 50%;
   border-radius: 50%;
   transform: translate(-50%, -50%);
   pointer-events: none;
 }
+
 .solar-planet {
   position: absolute;
   border-radius: 50%;
   box-shadow: 0 0 8px #0008;
   transition: box-shadow 0.2s;
 }
+
 .solar-planet:hover {
   z-index: 20;
   box-shadow: 0 0 24px 8px #fff8;
 }
+
 .solar-label {
   position: absolute;
   top: 100%;
@@ -556,6 +618,7 @@ a:hover {
   pointer-events: none;
   text-shadow: 0 1px 4px #ff6f6155;
 }
+
 @media (max-width: 900px) {
   #solar-system-canvas {
     width: 80vw;
@@ -563,10 +626,12 @@ a:hover {
     max-width: 380px;
     max-height: 380px;
   }
+
   .solar-system-container {
     min-height: 320px;
   }
 }
+
 @media (max-width: 600px) {
   #solar-system-canvas {
     width: 98vw;
@@ -576,15 +641,20 @@ a:hover {
     min-width: 160px;
     min-height: 160px;
   }
+
   .solar-system-container {
     min-height: 180px;
     padding: 0.5em 0;
   }
 }
-#air-quality-section, #soil-quality-section {
+
+#air-quality-section,
+#soil-quality-section {
   min-height: 140px;
 }
-#air-quality-content, #soil-quality-content {
+
+#air-quality-content,
+#soil-quality-content {
   font-size: 1em;
   color: var(--secondary);
   background: #1b2130;
@@ -595,10 +665,13 @@ a:hover {
   line-height: 1.7;
   word-break: break-word;
 }
-#air-quality-section h3, #soil-quality-section h3 {
+
+#air-quality-section h3,
+#soil-quality-section h3 {
   color: var(--accent);
   margin-bottom: 0.3em;
 }
+
 body {
   margin: 0;
   font-family: 'Segoe UI', 'Arial', sans-serif;
@@ -660,6 +733,7 @@ nav .nav-toggle span {
   nav {
     position: relative;
   }
+
   nav ul {
     flex-direction: column;
     position: fixed;
@@ -682,19 +756,23 @@ nav .nav-toggle span {
     padding: 0;
     transition: max-height 0.3s, opacity 0.3s;
   }
+
   nav ul.show {
     max-height: 100vh;
     opacity: 1;
     padding: 0;
   }
+
   nav .nav-toggle {
     display: block;
     z-index: 101;
   }
+
   nav ul li {
     width: 100%;
     text-align: center;
   }
+
   nav ul li a {
     font-size: 1.3em;
     padding: 0.7em 0;
@@ -719,7 +797,8 @@ nav a {
   border-radius: 4px;
 }
 
-nav a.active, nav a:hover {
+nav a.active,
+nav a:hover {
   background: linear-gradient(to right, var(--accent), var(--accent2));
   color: #191a2e;
 }
@@ -737,8 +816,15 @@ main {
 }
 
 @keyframes fadeIn {
-  from { opacity: 0; transform: translateY(20px);}
-  to { opacity: 1; transform: none;}
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+
+  to {
+    opacity: 1;
+    transform: none;
+  }
 }
 
 .hero-img {
@@ -777,6 +863,7 @@ main {
   .dashboard-grid {
     grid-template-columns: 1fr;
   }
+
   .map-card {
     grid-column: span 1;
   }
@@ -804,12 +891,15 @@ main {
 .event-category {
   color: var(--secondary);
 }
+
 .event-date {
   color: var(--accent2);
 }
+
 #user-location {
   color: var(--accent);
 }
+
 #apod-content img {
   box-shadow: 0 2px 8px #ffd16699;
 }
@@ -841,6 +931,7 @@ a:hover {
   width: 8px;
   background: #23293a;
 }
+
 ::-webkit-scrollbar-thumb {
   background: #ffd166;
   border-radius: 4px;
@@ -853,11 +944,13 @@ a:hover {
   gap: 2rem;
   align-items: flex-start;
 }
+
 .home-cards {
   display: flex;
   gap: 1.5rem;
   flex-wrap: wrap;
 }
+
 .home-card {
   background: var(--card-bg);
   border-radius: 1rem;
@@ -879,6 +972,7 @@ a:hover {
   border-radius: 0.7rem;
   box-shadow: 0 2px 8px #0004;
 }
+
 .home-cta {
   background: #22223b;
   border-left: 4px solid var(--accent2);
@@ -888,18 +982,21 @@ a:hover {
   max-width: 420px;
   opacity: 0.8;
 }
+
 @media (max-width: 900px) {
   .home-extra {
     flex-direction: column;
     gap: 1.2rem;
   }
+
   .home-cards {
     flex-direction: column;
     gap: 1.2rem;
   }
 }
 
-#user-temp, #user-time {
+#user-temp,
+#user-time {
   font-size: 1em;
   color: var(--secondary);
   margin-top: 0.3em;
@@ -908,6 +1005,7 @@ a:hover {
 #news-section {
   min-height: 200px;
 }
+
 #nasa-news-list {
   display: flex;
   flex-direction: column;
@@ -916,6 +1014,7 @@ a:hover {
   overflow-y: auto;
   min-height: 220px;
 }
+
 .nasa-news-card {
   background: #1b2130;
   border-left: 4px solid var(--accent);
@@ -923,33 +1022,39 @@ a:hover {
   padding: 0.7em 1em;
   box-shadow: 0 1px 4px #0002;
 }
+
 .nasa-news-title {
   font-weight: bold;
   color: var(--accent);
 }
+
 .nasa-news-date {
   font-size: 0.9em;
   color: var(--secondary);
 }
+
 .nasa-news-link {
   color: var(--accent);
   font-size: 0.95em;
   text-decoration: underline;
 }
-.study-section-btn{
+
+.study-section-btn {
   color: var(--text);
-    text-decoration: none;
-    font-weight: 500;
-    padding: 0.3em 0.7em;
-    border-radius: 4px;
-    cursor: pointer;
-    color: rgb(252, 250, 250);
-    background-color: rgba(108, 102, 102, 0.752);
+  text-decoration: none;
+  font-weight: 500;
+  padding: 0.3em 0.7em;
+  border-radius: 4px;
+  cursor: pointer;
+  color: rgb(252, 250, 250);
+  background-color: rgba(108, 102, 102, 0.752);
 }
-.study-section-btn:hover{
-    background: linear-gradient(to right, var(--accent), var(--accent2));
+
+.study-section-btn:hover {
+  background: linear-gradient(to right, var(--accent), var(--accent2));
 
 }
+
 .study-content {
   display: flex;
   flex-wrap: wrap;
@@ -957,6 +1062,7 @@ a:hover {
   align-items: flex-start;
   margin-top: 1.5rem;
 }
+
 .study-fact {
   background: var(--card-bg);
   border-radius: 1rem;
@@ -967,6 +1073,7 @@ a:hover {
   font-size: 1.1em;
   margin-bottom: 1em;
 }
+
 #next-nasa-fact {
   background: var(--accent);
   color: #181c24;
@@ -979,10 +1086,12 @@ a:hover {
   margin-left: 0.5em;
   transition: background 0.2s;
 }
+
 #next-nasa-fact:hover {
   background: #fff;
   color: var(--accent);
 }
+
 .study-links {
   background: #1b2130;
   border-radius: 0.7rem;
@@ -990,9 +1099,11 @@ a:hover {
   min-width: 220px;
   max-width: 320px;
 }
+
 .study-links ul {
   padding-left: 1.2em;
 }
+
 .study-links a {
   color: var(--accent);
   text-decoration: underline;
@@ -1004,7 +1115,10 @@ a:hover {
   gap: 2rem;
   margin-top: 1.5rem;
 }
-.about-mission, .about-features, .about-resources {
+
+.about-mission,
+.about-features,
+.about-resources {
   background: var(--card-bg);
   border-radius: 1rem;
   box-shadow: 0 2px 12px #0003;
@@ -1013,15 +1127,21 @@ a:hover {
   max-width: 350px;
   flex: 1 1 220px;
 }
+
 .about-highlight {
   color: var(--accent);
   font-weight: 500;
 }
-.about-features ul, .about-resources ul {
+
+.about-features ul,
+.about-resources ul {
   padding-left: 1.2em;
 }
+
 @media (max-width: 900px) {
-  .about-beautiful, .study-content {
+
+  .about-beautiful,
+  .study-content {
     flex-direction: column;
     gap: 1.2rem;
   }
@@ -1047,6 +1167,7 @@ a:hover {
 .quiz-question {
   margin-bottom: 1.1em;
 }
+
 #stars-bg {
   position: fixed;
   top: 0;
@@ -1075,13 +1196,15 @@ a:hover {
   margin-right: 1.5em;
 }
 
-#quiz-submit, #quiz-next-level {
+#quiz-submit,
+#quiz-next-level {
   background: linear-gradient(90deg, var(--accent) 0%, var(--accent2) 100%);
   color: #191a2e;
   box-shadow: 0 2px 12px #ffd16655;
 }
 
-#quiz-submit:hover, #quiz-next-level:hover {
+#quiz-submit:hover,
+#quiz-next-level:hover {
   background: #fff;
   color: var(--accent);
 }
@@ -1089,17 +1212,27 @@ a:hover {
 #quiz-result {
   color: var(--success);
 }
+
 .sprinkles-bg {
   position: fixed;
   z-index: 0;
-  top: 0; left: 0; width: 100vw; height: 100vh;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
   pointer-events: none;
   overflow: hidden;
   animation: sprinkleFade 8s infinite alternate;
 }
+
 @keyframes sprinkleFade {
-  0% { opacity: 0.7;}
-  100% { opacity: 1;}
+  0% {
+    opacity: 0.7;
+  }
+
+  100% {
+    opacity: 1;
+  }
 }
 
 .sprinkle-dot {
@@ -1111,12 +1244,13 @@ a:hover {
   box-shadow: 0 0 8px var(--accent2);
 }
 
-body > header,
-body > main,
-body > footer {
+body>header,
+body>main,
+body>footer {
   position: relative;
   z-index: 1;
 }
+
 .study-info {
   background: var(--glass-bg);
   border-radius: var(--radius);
@@ -1128,22 +1262,26 @@ body > footer {
   opacity: 0.99;
   border: 2px solid var(--accent2);
 }
+
 .study-info h3 {
   color: var(--accent);
   margin-top: 1em;
   margin-bottom: 0.5em;
   text-shadow: 0 2px 8px var(--accent2);
 }
+
 .study-info ul {
   margin-top: 0;
   margin-bottom: 1em;
   padding-left: 1.2em;
 }
+
 .study-info li {
   margin-bottom: 0.4em;
   color: var(--text);
 }
-.study-info p{
+
+.study-info p {
   word-spacing: 2px;
   line-height-step: 2px;
 }
@@ -1178,6 +1316,7 @@ body::before {
   pointer-events: none;
   opacity: 0.7;
 }
+
 .nasa-logo-fixed img {
   width: 72px;
   height: 72px;
@@ -1188,15 +1327,23 @@ body::before {
   display: block;
   animation: logoSpin 8s linear infinite;
 }
+
 @keyframes logoSpin {
-  0% { transform: rotate(0deg);}
-  100% { transform: rotate(360deg);}
+  0% {
+    transform: rotate(0deg);
+  }
+
+  100% {
+    transform: rotate(360deg);
+  }
 }
+
 @media (max-width: 600px) {
   .nasa-logo-fixed {
     right: 10px;
     bottom: 10px;
   }
+
   .nasa-logo-fixed img {
     width: 44px;
     height: 44px;
@@ -1211,6 +1358,7 @@ body::before {
   gap: 2em;
   justify-content: center;
 }
+
 .study-media-item {
   max-width: 340px;
   flex: 1 1 220px;
@@ -1218,6 +1366,7 @@ body::before {
   flex-direction: column;
   align-items: center;
 }
+
 .study-media-item img,
 .study-media-item iframe {
   width: 100%;
@@ -1227,12 +1376,14 @@ body::before {
   margin-bottom: 0.7em;
   transition: box-shadow 0.2s;
 }
+
 .study-media-item img:hover,
 .study-media-item iframe:hover {
   box-shadow: 0 8px 32px var(--accent);
 }
-  .study-media-item img,
-  .study-media-item iframe {
-    max-width: 98vw;
-    height: auto;
-  }
+
+.study-media-item img,
+.study-media-item iframe {
+  max-width: 98vw;
+  height: auto;
+}

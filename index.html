@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width,initial-scale=1.0">
@@ -11,6 +12,7 @@
     nav ul .dropdown {
       position: relative;
     }
+
     nav ul .dropdown-menu {
       min-width: 200px;
       left: 0;
@@ -18,443 +20,476 @@
     }
   </style>
 </head>
-  <body style="background-color: black;">
+
+<body style="background-color: black;">
   <!-- Rocket Launch Animation Overlay -->
-  <div id="rocket-video-overlay" style="position:fixed; top:0; left:0; width:100vw; height:100vh; z-index:1000; background:linear-gradient(135deg,#101a2b 60%,#1a2233 100%); overflow:hidden;">
+  <div id="rocket-video-overlay"
+    style="position:fixed; top:0; left:0; width:100vw; height:100vh; z-index:1000; background:linear-gradient(135deg,#101a2b 60%,#1a2233 100%); overflow:hidden;">
     <canvas id="rocket-stars-bg" style="position:absolute;top:0;left:0;width:100vw;height:100vh;z-index:1;"></canvas>
-    <canvas id="rocket-launch-canvas" style="position:absolute;top:0;left:0;width:100vw;height:100vh;z-index:2;"></canvas>
-    <canvas id="rocket-smoke-canvas" style="position:absolute;left:0;top:0;width:100vw;height:100vh;z-index:3;pointer-events:none;"></canvas>
+    <canvas id="rocket-launch-canvas"
+      style="position:absolute;top:0;left:0;width:100vw;height:100vh;z-index:2;"></canvas>
+    <canvas id="rocket-smoke-canvas"
+      style="position:absolute;left:0;top:0;width:100vw;height:100vh;z-index:3;pointer-events:none;"></canvas>
   </div>
   <div id="site-content" style="display:none; background-color: black;">
     <canvas id="stars-bg"></canvas>
     <div class="sprinkles-bg" id="sprinkles-bg"></div>
     <header>
-    <nav>
-      <div class="logo">EarthLens</div>
-      <button class="nav-toggle" aria-label="Toggle navigation">
-        <span></span>
-        <span></span>
-        <span></span>
-      </button>
-      <ul>
-        <li><a href="#" data-section="home" class="nav-link active">Home</a></li>
-        <li><a href="#" data-section="dashboard" class="nav-link">Dashboard</a></li>
-        <li><a href="#" data-section="solar-system" class="nav-link">Solar System</a></li>
-        <!-- Dropdown for Study NASA -->
-        <li class="dropdown">
-          <a href="#" data-section="study" class="nav-link">Study NASA ▼</a>
-          <ul class="dropdown-menu" style="display:none;position:absolute;background:#1a2233;padding:1em;border-radius:8px;z-index:10;">
-            <li style="padding: 0.4rem 0"><a href="#" class="study-dropdown-link" data-study="history" >Our History</a></li>
-            <li style="padding: 0.4rem 0"><a href="#" class="study-dropdown-link" data-study="wins">Achievements</a></li>
-            <li style="padding: 0.4rem 0"><a href="#" class="study-dropdown-link" data-study="losses">Our failures</a></li>
-            <li style="padding: 0.4rem 0"><a href="#" class="study-dropdown-link" data-study="future">Future Missions</a></li>
-          </ul>
-        </li>
-        <li><a href="#" data-section="quiz" class="nav-link">Quiz</a></li>
-        <li><a href="#" data-section="about" class="nav-link">About</a></li>
-      </ul> 
-    </nav> 
-  </header>
+      <nav>
+        <div class="logo">EarthLens</div>
+        <button class="nav-toggle" aria-label="Toggle navigation">
+          <span></span>
+          <span></span>
+          <span></span>
+        </button>
+        <ul>
+          <li><a href="#" data-section="home" class="nav-link active">Home</a></li>
+          <li><a href="#" data-section="dashboard" class="nav-link">Dashboard</a></li>
+          <li><a href="#" data-section="solar-system" class="nav-link">Solar System</a></li>
+          <!-- Dropdown for Study NASA -->
+          <li class="dropdown">
+            <a href="#" data-section="study" class="nav-link">Study NASA ▼</a>
+            <ul class="dropdown-menu"
+              style="display:none;position:absolute;background:#1a2233;padding:1em;border-radius:8px;z-index:10;">
+              <li style="padding: 0.4rem 0"><a href="#" class="study-dropdown-link" data-study="history">Our History</a>
+              </li>
+              <li style="padding: 0.4rem 0"><a href="#" class="study-dropdown-link" data-study="wins">Achievements</a>
+              </li>
+              <li style="padding: 0.4rem 0"><a href="#" class="study-dropdown-link" data-study="losses">Our failures</a>
+              </li>
+              <li style="padding: 0.4rem 0"><a href="#" class="study-dropdown-link" data-study="future">Future
+                  Missions</a></li>
+            </ul>
+          </li>
+          <li><a href="#" data-section="quiz" class="nav-link">Quiz</a></li>
+          <li><a href="#" data-section="about" class="nav-link">About</a></li>
+        </ul>
+      </nav>
+    </header>
 
-  <main>
-    <!-- Home Section -->
-    <section id="home" class="main-section">
-      <h1>EarthLens</h1> 
-      <p>Explore NASA's open data about Earth and Space. Get live information on natural events, air quality, and more.</p>
-      <div class="hero-img"></div>
-      <div class="home-extra">
-        <div class="home-cards">
-          <div class="home-card" id="home-apod-preview">
-            <h3>Today's Space Image</h3>
-            <div id="home-apod-img"></div>
+    <main>
+      <!-- Home Section -->
+      <section id="home" class="main-section">
+        <h1>EarthLens</h1>
+        <p>Explore NASA's open data about Earth and Space. Get live information on natural events, air quality, and
+          more.</p>
+        <div class="hero-img"></div>
+        <div class="home-extra">
+          <div class="home-cards">
+            <div class="home-card" id="home-apod-preview">
+              <h3>Today's Space Image</h3>
+              <div id="home-apod-img"></div>
+            </div>
+            <div class="home-card" id="home-fact">
+              <h3>Did You Know?</h3>
+              <div id="home-nasa-fact"></div>
+            </div>
           </div>
-          <div class="home-card" id="home-fact">
-            <h3>Did You Know?</h3>
-            <div id="home-nasa-fact"></div>
+          <div class="home-cta">
+            <h3>Become a Citizen Scientist!</h3>
+            <p>Check the <b>Dashboard</b> for live events, or visit <b>Study NASA</b> to learn more about NASA's
+              missions and discoveries.</p>
           </div>
         </div>
-        <div class="home-cta">
-          <h3>Become a Citizen Scientist!</h3>
-          <p>Check the <b>Dashboard</b> for live events, or visit <b>Study NASA</b> to learn more about NASA's missions and discoveries.</p>
-        </div>
-      </div>
-    </section>
+      </section>
 
-    <!-- Dashboard Section -->
-    <section id="dashboard" class="main-section" style="display:none;">
-      <h2>Live NASA Data Dashboard</h2>
-      <div class="dashboard-grid">
-        <!-- EONET Events -->
-        <div class="dashboard-card" id="events-section">
-          <h3>Recent Natural Events</h3>
-          <div id="events-list" class="events-list"></div>
-        </div>
-        <!-- User Location -->
-        <div class="dashboard-card" id="location-section">
-          <h3>Your Location</h3>
-          <div id="user-location">Detecting location...</div>
-          <div id="user-temp"></div>
-          <div id="user-time"></div>
-        </div>
-        <!-- Air Quality -->
-        <div class="dashboard-card" id="air-quality-section">
-          <h3>Air Quality</h3>
-          <div id="air-quality-content">Loading air quality...</div>
-        </div>
-        <!-- Map -->
-        <div class="dashboard-card map-card">
-          <h3>Event Map</h3>
-          <div id="map" style="height:300px;"></div>
-        </div>
-        <!-- Chart -->
-        <div class="dashboard-card">
-          <h3>Events by Category</h3>
-          <canvas id="events-chart" width="400" height="250"></canvas>
-        </div>
-        <!-- APOD -->
-        <div class="dashboard-card" id="apod-section">
-          <h3>Astronomy Picture of the Day</h3>
-          <div id="apod-content"></div>
-        </div>
-        
-        <!-- NASA News -->
-        <div class="dashboard-card" id="news-section">
-          <h3>NASA News</h3>
-          <div id="nasa-news-list"></div>
-        </div>
-      </div>
-    </section>
+      <!-- Dashboard Section -->
+      <section id="dashboard" class="main-section" style="display:none;">
+        <h2>Live NASA Data Dashboard</h2>
+        <div class="dashboard-grid">
+          <!-- EONET Events -->
+          <div class="dashboard-card" id="events-section">
+            <h3>Recent Natural Events</h3>
+            <div id="events-list" class="events-list"></div>
+          </div>
+          <!-- User Location -->
+          <div class="dashboard-card" id="location-section">
+            <h3>Your Location</h3>
+            <div id="user-location">Detecting location...</div>
+            <div id="user-temp"></div>
+            <div id="user-time"></div>
+          </div>
+          <!-- Air Quality -->
+          <div class="dashboard-card" id="air-quality-section">
+            <h3>Air Quality</h3>
+            <div id="air-quality-content">Loading air quality...</div>
+          </div>
+          <!-- Map -->
+          <div class="dashboard-card map-card">
+            <h3>Event Map</h3>
+            <div id="map" style="height:300px;"></div>
+          </div>
+          <!-- Chart -->
+          <div class="dashboard-card">
+            <h3>Events by Category</h3>
+            <canvas id="events-chart" width="400" height="250"></canvas>
+          </div>
+          <!-- APOD -->
+          <div class="dashboard-card" id="apod-section">
+            <h3>Astronomy Picture of the Day</h3>
+            <div id="apod-content"></div>
+          </div>
 
-    <!-- Solar System Section -->
-    <section id="solar-system" class="main-section" style="display:none;">
-      <h2>Solar System Model</h2>
-      <div class="solar-system-container">
-        <div id="solar-system-canvas"></div>
-      </div>
+          <!-- NASA News -->
+          <div class="dashboard-card" id="news-section">
+            <h3>NASA News</h3>
+            <div id="nasa-news-list"></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Solar System Section -->
+      <section id="solar-system" class="main-section" style="display:none;">
+        <h2>Solar System Model</h2>
+        <div class="solar-system-container">
+          <div id="solar-system-canvas"></div>
+        </div>
 
         <!-- Info box for planet/sun details -->
-      <p style="color:#a3b9cc; margin-top:1em;">Planets revolve around the Sun at relative speeds and distances. (Not to scale)</p>
-      <div id="planet-info" style="margin-top:2em; background:#1a2233; color:#fff; padding:1em; border-radius:8px;  display:none; z-index:20;"></div>
-      
-    </section>
+        <p style="color:#a3b9cc; margin-top:1em;">Planets revolve around the Sun at relative speeds and distances. (Not
+          to scale)</p>
+        <div id="planet-info"
+          style="margin-top:2em; background:#1a2233; color:#fff; padding:1em; border-radius:8px;  display:none; z-index:20;">
+        </div>
 
-    <!-- Study NASA Section -->
-    <section id="study" class="main-section" style="display:none;">
-      <h2>Study NASA</h2>
-      <!-- Dropdown section selector -->
-      <div style="margin-bottom:1em;">
-        <button class="study-section-btn" data-study="history">History of NASA</button>
-        <button class="study-section-btn" data-study="wins">Sucess of NASA</button>
-        <button class="study-section-btn" data-study="losses">Failures of NASA</button>
-        <button class="study-section-btn" data-study="future">Future Missions</button>
-      </div>
-      <div class="study-content">
-        <!-- History Section -->
-        <div id="study-history" class="study-subsection">
-          <div class="study-media" style="width:100%;margin-bottom:2em;display:flex;flex-wrap:wrap;gap:2em;justify-content:center;">
-          </div>
-          <div class="study-info">
-            <h3>History of NASA</h3>
-            <p>
-              🚀 The Complete History of NASA <br>
-  🌍 Origins <br>
-  Founded: July 29, 1958 (by National Aeronautics and Space Act). <br>
-  Reason: Cold War tensions & the USSR’s launch of Sputnik 1 (1957). <br>
-  Predecessor: NACA (National Advisory Committee for Aeronautics, founded in 1915). <br>
-  Official Start: October 1, 1958. <br><br>
+      </section>
 
-  👉 First Administrator: Dr. T. Keith Glennan <br>
-  👉 Motto: “For the Benefit of All.” <br> <br> <br>
-
-  <br>
-  🧑‍🚀 The Space Race Era (1958–1969) <br>
-  Project Mercury (1959–63): <br>
-  Goal → Send first Americans into space. <br>
-  1961: Alan Shepard → 1st American in space. <br>
-  1962: John Glenn → 1st American to orbit Earth. <br><br>
-
-  Project Gemini (1961–66): <br>
-  Practiced spacewalks, docking, and long-duration flights. <br>
-  Helped prepare astronauts for the Moon. <br>
-
-  Apollo Program (1961–72): <br>
-  Announced by President John F. Kennedy (1961): “We choose to go to the Moon.” <br>
-  Apollo 8 (1968): 1st crewed spacecraft to orbit the Moon. <br>
-  Apollo 11 (1969): Neil Armstrong & Buzz Aldrin walked on the Moon. <br>
-  Six Moon landings in total (Apollo 11–17, except 13 due to in-flight emergency). <br> <br><br>
-
-  --- <br>
-
-  🛰️ Post-Apollo Achievements (1970s–1980s) <br>
-  Skylab (1973–79): America’s first space station. <br>
-  Apollo-Soyuz Test Project (1975): First U.S.–Soviet joint mission → symbol of peace. <br>
-  Voyager Probes (1977): Sent to study outer planets (still sending signals today 🌌). <br>
-  Space Shuttle Program (1981–2011): <br>
-  Reusable spacecraft (Columbia, Challenger, Discovery, Atlantis, Endeavour). <br>
-  Challenger disaster (1986) → Shuttle exploded after launch. <br>
-  Revolutionized satellite deployment & ISS construction. <br><br><br>
-
-  --- <br>
-
-  🌌 The Modern Space Age (1990s–2000s) <br>
-  Hubble Space Telescope (1990): Gave breathtaking deep-space images. <br>
-  International Space Station (1998–Present): Built by NASA + Russia + partners. <br>
-  Mars Exploration Rovers (2003): Spirit & Opportunity explored the Red Planet. <br>
-  Columbia Disaster (2003): Shuttle disintegrated on re-entry → 7 astronauts lost. <br><br><br>
-
-  --- <br>
-  ✨ The New Era (2010s–Present) <br>
-  Curiosity Rover (2012): Landed on Mars with advanced science lab. <br>
-  New Horizons (2015): Flyby mission → first detailed images of Pluto. <br>
-  Perseverance Rover (2021): Searching for signs of ancient life on Mars. <br>
-  James Webb Space Telescope (2021): Most powerful telescope ever launched. <br>
-  Commercial Partnerships: Collaborating with SpaceX, Blue Origin, Boeing, etc. <br>
-
-  Artemis Program (Ongoing): <br>
-  Goal → Return astronauts to the Moon by mid-2020s. <br>
-  Special focus: First woman and first person of color on the Moon. <br>
-  Long-term → Use Moon as base for Mars missions. <br><br><br>
-
-  --- <br>
-
-  📍 Fun Facts about NASA <br>
-  Budget (2024): ~$25 billion. <br>
-  NASA inventions used in daily life: memory foam, scratch-resistant lenses, water filters, cordless tools, freeze-dried food. <br>
-  NASA’s motto: “Explore. Discover. Understand.” <br>
-  NASA has 10 major research centers across the U.S. (e.g., Kennedy Space Center, Johnson Space Center, Jet Propulsion Laboratory). <br><br><br>
-
-  --- <br>
-
-  👉 In short, NASA’s journey is like this: <br>
-  Sputnik shock → Mercury rockets → Apollo Moon landing → Space Shuttle & ISS → Mars rovers & Hubble → Artemis & Webb for the future🌌✨
-            </p>
+      <!-- Study NASA Section -->
+      <section id="study" class="main-section" style="display:none;">
+        <h2>Study NASA</h2>
+        <!-- Dropdown section selector -->
+        <div style="margin-bottom:1em;">
+          <button class="study-section-btn" data-study="history">History of NASA</button>
+          <button class="study-section-btn" data-study="wins">Sucess of NASA</button>
+          <button class="study-section-btn" data-study="losses">Failures of NASA</button>
+          <button class="study-section-btn" data-study="future">Future Missions</button>
+        </div>
+        <div class="study-content">
+          <!-- History Section -->
+          <div id="study-history" class="study-subsection">
+            <div class="study-media"
+              style="width:100%;margin-bottom:2em;display:flex;flex-wrap:wrap;gap:2em;justify-content:center;">
             </div>
-          <div class="study-links">
-            <h3>Learn More</h3>
-            <ul>
-              <li><a href="https://youtu.be/VV6QeZFaVSQ?si=w76kiTzLfmqgiGEe" target="_blank">More About NASA's History</a></li>
-            </ul>
+            <div class="study-info">
+              <h3>History of NASA</h3>
+              <p>
+                🚀 The Complete History of NASA <br>
+                🌍 Origins <br>
+                Founded: July 29, 1958 (by National Aeronautics and Space Act). <br>
+                Reason: Cold War tensions & the USSR’s launch of Sputnik 1 (1957). <br>
+                Predecessor: NACA (National Advisory Committee for Aeronautics, founded in 1915). <br>
+                Official Start: October 1, 1958. <br><br>
+
+                👉 First Administrator: Dr. T. Keith Glennan <br>
+                👉 Motto: “For the Benefit of All.” <br> <br> <br>
+
+                <br>
+                🧑‍🚀 The Space Race Era (1958–1969) <br>
+                Project Mercury (1959–63): <br>
+                Goal → Send first Americans into space. <br>
+                1961: Alan Shepard → 1st American in space. <br>
+                1962: John Glenn → 1st American to orbit Earth. <br><br>
+
+                Project Gemini (1961–66): <br>
+                Practiced spacewalks, docking, and long-duration flights. <br>
+                Helped prepare astronauts for the Moon. <br>
+
+                Apollo Program (1961–72): <br>
+                Announced by President John F. Kennedy (1961): “We choose to go to the Moon.” <br>
+                Apollo 8 (1968): 1st crewed spacecraft to orbit the Moon. <br>
+                Apollo 11 (1969): Neil Armstrong & Buzz Aldrin walked on the Moon. <br>
+                Six Moon landings in total (Apollo 11–17, except 13 due to in-flight emergency). <br> <br><br>
+
+                --- <br>
+
+                🛰️ Post-Apollo Achievements (1970s–1980s) <br>
+                Skylab (1973–79): America’s first space station. <br>
+                Apollo-Soyuz Test Project (1975): First U.S.–Soviet joint mission → symbol of peace. <br>
+                Voyager Probes (1977): Sent to study outer planets (still sending signals today 🌌). <br>
+                Space Shuttle Program (1981–2011): <br>
+                Reusable spacecraft (Columbia, Challenger, Discovery, Atlantis, Endeavour). <br>
+                Challenger disaster (1986) → Shuttle exploded after launch. <br>
+                Revolutionized satellite deployment & ISS construction. <br><br><br>
+
+                --- <br>
+
+                🌌 The Modern Space Age (1990s–2000s) <br>
+                Hubble Space Telescope (1990): Gave breathtaking deep-space images. <br>
+                International Space Station (1998–Present): Built by NASA + Russia + partners. <br>
+                Mars Exploration Rovers (2003): Spirit & Opportunity explored the Red Planet. <br>
+                Columbia Disaster (2003): Shuttle disintegrated on re-entry → 7 astronauts lost. <br><br><br>
+
+                --- <br>
+                ✨ The New Era (2010s–Present) <br>
+                Curiosity Rover (2012): Landed on Mars with advanced science lab. <br>
+                New Horizons (2015): Flyby mission → first detailed images of Pluto. <br>
+                Perseverance Rover (2021): Searching for signs of ancient life on Mars. <br>
+                James Webb Space Telescope (2021): Most powerful telescope ever launched. <br>
+                Commercial Partnerships: Collaborating with SpaceX, Blue Origin, Boeing, etc. <br>
+
+                Artemis Program (Ongoing): <br>
+                Goal → Return astronauts to the Moon by mid-2020s. <br>
+                Special focus: First woman and first person of color on the Moon. <br>
+                Long-term → Use Moon as base for Mars missions. <br><br><br>
+
+                --- <br>
+
+                📍 Fun Facts about NASA <br>
+                Budget (2024): ~$25 billion. <br>
+                NASA inventions used in daily life: memory foam, scratch-resistant lenses, water filters, cordless
+                tools, freeze-dried food. <br>
+                NASA’s motto: “Explore. Discover. Understand.” <br>
+                NASA has 10 major research centers across the U.S. (e.g., Kennedy Space Center, Johnson Space Center,
+                Jet Propulsion Laboratory). <br><br><br>
+
+                --- <br>
+
+                👉 In short, NASA’s journey is like this: <br>
+                Sputnik shock → Mercury rockets → Apollo Moon landing → Space Shuttle & ISS → Mars rovers & Hubble →
+                Artemis & Webb for the future🌌✨
+              </p>
+            </div>
+            <div class="study-links">
+              <h3>Learn More</h3>
+              <ul>
+                <li><a href="https://youtu.be/VV6QeZFaVSQ?si=w76kiTzLfmqgiGEe" target="_blank">More About NASA's
+                    History</a></li>
+              </ul>
+            </div>
+          </div>
+          <!-- Wins Section -->
+          <div id="study-wins" class="study-subsection" style="display:none;">
+            <div class="study-info">
+              <h3>NASA Wins</h3>
+              🚀 1. Apollo 11 – First Moon Landing (1969)
+
+              Achievement: First humans (Neil Armstrong & Buzz Aldrin) landed on the Moon, with Michael Collins orbiting
+              above.<br>
+              Why it’s important: Proved human space travel beyond Earth, fulfilled President Kennedy’s vision, and
+              became a symbol of human achievement.<br>
+              Impact: Opened doors to lunar science, space technology, and inspired generations.<br>
+              <br>
+              🔭 2. Hubble Space Telescope (1990–Present)
+
+              Achievement: Delivered sharp, breathtaking images of deep space.<br>
+              Discoveries:<br>
+
+              Helped determine the age of the universe (~13.8 billion years).<br>
+
+              Revealed the existence of dark energy.<br>
+
+              Captured iconic images like the Pillars of Creation.<br>
+              Impact: Changed how we understand the cosmos and became one of NASA’s most valuable scientific tools.<br>
+              <br>
+              🤖 3. Mars Rovers (Spirit, Opportunity, Curiosity, Perseverance)
+
+              Spirit & Opportunity (2004): Found strong evidence of past water on Mars. Opportunity worked 15 years
+              (planned for 90 days).<br>
+              Curiosity (2012): Studying Martian climate & geology.<br>
+              Perseverance (2021): Searching for signs of ancient life, first to collect samples for future return.<br>
+              Impact: Built the foundation for future human missions to Mars.<br>
+              <br>
+              🌌 4. Voyager Missions (1977–Present)
+
+              Voyager 1: First spacecraft to enter interstellar space (2012).<br>
+              Voyager 2: Only spacecraft to visit Uranus & Neptune.<br>
+              Golden Record: Carries sounds and images of Earth for potential alien civilizations.<br>
+              Impact: Still sending data back after nearly 50 years — humanity’s farthest explorers.<br>
+              <br>
+              🛰️ 5. International Space Station (1998–Present)
+
+              Collaboration: Built with USA, Russia, Europe, Japan, and Canada.<br>
+              Achievement: Largest human-made structure in space.<br>
+              Uses:<br>
+
+              Experiments in biology, physics, medicine, and astronomy.<br>
+
+              Testing ground for long-term human spaceflight.<br>
+              Impact: A model of international cooperation and a stepping stone for deep space missions.<br>
+              <br>
+              🔭 6. James Webb Space Telescope (2021–Present)
+
+              Achievement: Most powerful telescope ever built, successor to Hubble.<br>
+              Discoveries so far:<br>
+
+              Captured earliest galaxies formed after the Big Bang.<br>
+
+              Studying atmospheres of exoplanets for signs of habitability.<br>
+
+              Revealed unprecedented cosmic details.<br>
+              Impact: Redefining our understanding of the origin of stars, galaxies, and life.<br>
+              <br>
+              🌙 7. Artemis Program (2022–Ongoing)
+
+              Goal: Return humans to the Moon after 50 years.<br>
+              Artemis I (2022): Uncrewed test mission around the Moon — successful.<br>
+              Artemis II (planned 2025): First crewed mission around the Moon in decades.<br>
+              Artemis III (later): First woman and next man to land on the Moon.<br>
+              Impact: Prepares for a sustainable Moon base and future Mars missions.<br>
+            </div>
+          </div>
+          <!-- Losses Section -->
+          <div id="study-losses" class="study-subsection" style="display:none;">
+            <div class="study-info">
+              <h3>NASA Failures</h3>
+              ❌ NASA Mission Failures – Explained <br>
+              1. 🚀 Apollo 1 (1967) – Fire During Ground Test <br>
+              A cabin fire started during a pre-launch test (pure oxygen environment + electrical spark). <br>
+              The hatch couldn’t be opened quickly. <br>
+
+              Result: 3 astronauts died. <br>
+              👉 Impact: Redesigned spacecraft, faster escape hatches, stronger fire safety. <br>
+              <br><br>
+              2. 🚀 Challenger Disaster (1986) <br>
+              Shuttle launched in cold weather → O-ring seal became brittle and failed. <br>
+              Hot gases leaked, shuttle exploded 73 seconds after liftoff. <br>
+
+              Result: 7 astronauts died (including teacher Christa McAuliffe). <br>
+              👉 Impact: Shuttle flights paused for 3 years, design and safety decisions improved. <br>
+              <br><br>
+              3. 🚀 Columbia Disaster (2003) <br>
+              Foam from fuel tank hit the shuttle wing at launch → small hole formed. <br>
+              On re-entry, hot gases entered and destroyed the shuttle. <br>
+
+              Result: All 7 astronauts killed. <br>
+              👉 Impact: Early end of shuttle program, stricter damage assessment protocols. <br>
+              <br><br>
+              4. 🚀 Mars Climate Orbiter (1999) <br>
+              Teams used different units: English (pounds) vs. Metric (Newtons). <br>
+              Miscalculation → spacecraft went off-course and burned in atmosphere. <br>
+
+              Result: Mission lost. <br>
+              👉 Impact: Standardized unit checks in all missions. <br>
+              <br><br>
+              5. 🚀 Mars Polar Lander (1999) <br>
+              During descent, software thought the lander had already touched down. <br>
+              Engines shut off too early → crash. <br>
+
+              Result: Mission lost. <br>
+              👉 Impact: More rigorous software & landing system testing. <br>
+              <br><br>
+              6. 🚀 Apollo 13 (1970) – “Successful Failure” <br>
+              Oxygen tank exploded en route to the Moon. <br>
+              Moon landing canceled; crew used lunar module as a lifeboat. <br>
+
+              Result: Astronauts survived. <br>
+              👉 Impact: Proved NASA’s crisis management & teamwork strength. <br>
+            </div>
+          </div>
+          <!-- Future Missions Section -->
+          <div id="study-future" class="study-subsection" style="display:none;">
+            <div class="study-info"
+              style="background:#1b2130; border-radius:0.7rem; padding:1rem 1.2rem; color:#f7fafc;">
+              <h3 style="color:#e63946;">NASA Future Missions</h3>
+              <ul>
+                <li>
+                  <b>Artemis Program:</b> <br>
+                  <span>Return humans to the Moon, establish a sustainable lunar base, and prepare for Mars missions.
+                    Artemis II (first crewed lunar flyby, planned 2025), Artemis III (first woman and next man on the
+                    Moon).</span>
+                </li><br>
+                <li>
+                  <b>Mars Sample Return:</b> <br>
+                  <span>Joint NASA/ESA mission to bring Martian soil samples collected by Perseverance rover back to
+                    Earth (late 2020s).</span>
+                </li><br>
+                <li>
+                  <b>Europa Clipper:</b> <br>
+                  <span>Launch in 2024 to study Jupiter’s moon Europa, searching for signs of life beneath its icy
+                    surface.</span>
+                </li><br>
+                <li>
+                  <b>Dragonfly Mission:</b> <br>
+                  <span>Launch in 2027, drone-like rotorcraft to explore Saturn’s moon Titan, investigating prebiotic
+                    chemistry and habitability.</span>
+                </li><br>
+                <li>
+                  <b>Nancy Grace Roman Space Telescope:</b> <br>
+                  <span>Launch mid-2020s, wide-field infrared telescope to study dark energy, exoplanets, and cosmic
+                    origins.</span>
+                </li><br>
+                <li>
+                  <b>VERITAS & DAVINCI+ (Venus Missions):</b> <br>
+                  <span>Planned launches late 2020s, to study Venus’ geology, atmosphere, and history.</span>
+                </li> <br>
+                <li>
+                  <b>Gateway Lunar Space Station:</b> <br>
+                  <span>International outpost orbiting the Moon, supporting Artemis and deep space missions.</span>
+                </li><br>
+                <li>
+                  <b>Exoplanet Exploration:</b> <br>
+                  <span>Future telescopes and missions to discover and characterize planets around other stars.</span>
+                </li><br>
+              </ul>
+              <p>
+                <b>NASA’s vision for the future:</b> Expand human presence beyond Earth, search for life, understand our
+                origins, and inspire new generations of explorers.
+              </p>
+            </div>
           </div>
         </div>
-        <!-- Wins Section -->
-        <div id="study-wins" class="study-subsection" style="display:none;">
-          <div class="study-info">
-            <h3>NASA Wins</h3>
-            🚀 1. Apollo 11 – First Moon Landing (1969)
+      </section>
 
-Achievement: First humans (Neil Armstrong & Buzz Aldrin) landed on the Moon, with Michael Collins orbiting above.<br>
-Why it’s important: Proved human space travel beyond Earth, fulfilled President Kennedy’s vision, and became a symbol of human achievement.<br>
-Impact: Opened doors to lunar science, space technology, and inspired generations.<br>
-<br>
-🔭 2. Hubble Space Telescope (1990–Present)
+      <!-- Quiz Section -->
+      <section id="quiz" class="main-section" style="display:none;">
+        <h2>NASA Quiz</h2>
+        <div id="quiz-paragraph" class="quiz-paragraph"></div>
+        <form id="quiz-form">
+          <div id="quiz-questions"></div>
+          <button type="submit" id="quiz-submit">Submit Answers</button>
+        </form>
+        <div id="quiz-result"></div>
+      </section>
 
-Achievement: Delivered sharp, breathtaking images of deep space.<br>
-Discoveries:<br>
-
-Helped determine the age of the universe (~13.8 billion years).<br>
-
-Revealed the existence of dark energy.<br>
-
-Captured iconic images like the Pillars of Creation.<br>
-Impact: Changed how we understand the cosmos and became one of NASA’s most valuable scientific tools.<br>
-<br>
-🤖 3. Mars Rovers (Spirit, Opportunity, Curiosity, Perseverance)
-
-Spirit & Opportunity (2004): Found strong evidence of past water on Mars. Opportunity worked 15 years (planned for 90 days).<br>
-Curiosity (2012): Studying Martian climate & geology.<br>
-Perseverance (2021): Searching for signs of ancient life, first to collect samples for future return.<br>
-Impact: Built the foundation for future human missions to Mars.<br>
-<br>
-🌌 4. Voyager Missions (1977–Present)
-
-Voyager 1: First spacecraft to enter interstellar space (2012).<br>
-Voyager 2: Only spacecraft to visit Uranus & Neptune.<br>
-Golden Record: Carries sounds and images of Earth for potential alien civilizations.<br>
-Impact: Still sending data back after nearly 50 years — humanity’s farthest explorers.<br>
-<br>
-🛰️ 5. International Space Station (1998–Present)
-
-Collaboration: Built with USA, Russia, Europe, Japan, and Canada.<br>
-Achievement: Largest human-made structure in space.<br>
-Uses:<br>
-
-Experiments in biology, physics, medicine, and astronomy.<br>
-
-Testing ground for long-term human spaceflight.<br>
-Impact: A model of international cooperation and a stepping stone for deep space missions.<br>
-<br>
-🔭 6. James Webb Space Telescope (2021–Present)
-
-Achievement: Most powerful telescope ever built, successor to Hubble.<br>
-Discoveries so far:<br>
-
-Captured earliest galaxies formed after the Big Bang.<br>
-
-Studying atmospheres of exoplanets for signs of habitability.<br>
-
-Revealed unprecedented cosmic details.<br>
-Impact: Redefining our understanding of the origin of stars, galaxies, and life.<br>
-<br>
-🌙 7. Artemis Program (2022–Ongoing)
-
-Goal: Return humans to the Moon after 50 years.<br>
-Artemis I (2022): Uncrewed test mission around the Moon — successful.<br>
-Artemis II (planned 2025): First crewed mission around the Moon in decades.<br>
-Artemis III (later): First woman and next man to land on the Moon.<br>
-Impact: Prepares for a sustainable Moon base and future Mars missions.<br>
-          </div>
-        </div>
-        <!-- Losses Section -->
-        <div id="study-losses" class="study-subsection" style="display:none;">
-          <div class="study-info">
-            <h3>NASA Failures</h3>
-            ❌ NASA Mission Failures – Explained <br>
-1. 🚀 Apollo 1 (1967) – Fire During Ground Test <br>
-A cabin fire started during a pre-launch test (pure oxygen environment + electrical spark). <br>
-The hatch couldn’t be opened quickly. <br>
-
-Result: 3 astronauts died. <br>
-👉 Impact: Redesigned spacecraft, faster escape hatches, stronger fire safety. <br>
-<br><br>
-2. 🚀 Challenger Disaster (1986) <br>
-Shuttle launched in cold weather → O-ring seal became brittle and failed. <br>
-Hot gases leaked, shuttle exploded 73 seconds after liftoff. <br>
-
-Result: 7 astronauts died (including teacher Christa McAuliffe). <br>
-👉 Impact: Shuttle flights paused for 3 years, design and safety decisions improved. <br>
-<br><br>
-3. 🚀 Columbia Disaster (2003) <br>
-Foam from fuel tank hit the shuttle wing at launch → small hole formed. <br>
-On re-entry, hot gases entered and destroyed the shuttle. <br>
-
-Result: All 7 astronauts killed. <br>
-👉 Impact: Early end of shuttle program, stricter damage assessment protocols. <br>
-<br><br>
-4. 🚀 Mars Climate Orbiter (1999) <br>
-Teams used different units: English (pounds) vs. Metric (Newtons). <br>
-Miscalculation → spacecraft went off-course and burned in atmosphere. <br>
-
-Result: Mission lost. <br>
-👉 Impact: Standardized unit checks in all missions. <br>
-<br><br>
-5. 🚀 Mars Polar Lander (1999) <br>
-During descent, software thought the lander had already touched down. <br>
-Engines shut off too early → crash. <br>
-
-Result: Mission lost. <br>
-👉 Impact: More rigorous software & landing system testing. <br>
-<br><br>
-6. 🚀 Apollo 13 (1970) – “Successful Failure” <br>
-Oxygen tank exploded en route to the Moon. <br>
-Moon landing canceled; crew used lunar module as a lifeboat. <br>
-
-Result: Astronauts survived. <br>
-👉 Impact: Proved NASA’s crisis management & teamwork strength. <br>
-          </div>
-        </div>
-        <!-- Future Missions Section -->
-        <div id="study-future" class="study-subsection" style="display:none;">
-          <div class="study-info" style="background:#1b2130; border-radius:0.7rem; padding:1rem 1.2rem; color:#f7fafc;">
-            <h3 style="color:#e63946;">NASA Future Missions</h3>
-            <ul>
-              <li>
-                <b>Artemis Program:</b> <br>
-                <span>Return humans to the Moon, establish a sustainable lunar base, and prepare for Mars missions. Artemis II (first crewed lunar flyby, planned 2025), Artemis III (first woman and next man on the Moon).</span>
-              </li><br>
-              <li>
-                <b>Mars Sample Return:</b> <br>
-                <span>Joint NASA/ESA mission to bring Martian soil samples collected by Perseverance rover back to Earth (late 2020s).</span>
-              </li><br>
-              <li>
-                <b>Europa Clipper:</b> <br>
-                <span>Launch in 2024 to study Jupiter’s moon Europa, searching for signs of life beneath its icy surface.</span>
-              </li><br>
-              <li>
-                <b>Dragonfly Mission:</b> <br>
-                <span>Launch in 2027, drone-like rotorcraft to explore Saturn’s moon Titan, investigating prebiotic chemistry and habitability.</span>
-              </li><br>
-              <li>
-                <b>Nancy Grace Roman Space Telescope:</b> <br>
-                <span>Launch mid-2020s, wide-field infrared telescope to study dark energy, exoplanets, and cosmic origins.</span>
-              </li><br>
-              <li>
-                <b>VERITAS & DAVINCI+ (Venus Missions):</b> <br>
-                <span>Planned launches late 2020s, to study Venus’ geology, atmosphere, and history.</span>
-              </li> <br>
-              <li>
-                <b>Gateway Lunar Space Station:</b> <br>
-                <span>International outpost orbiting the Moon, supporting Artemis and deep space missions.</span>
-              </li><br>
-              <li>
-                <b>Exoplanet Exploration:</b> <br>
-                <span>Future telescopes and missions to discover and characterize planets around other stars.</span>
-              </li><br>
-            </ul>
+      <!-- About Section -->
+      <section id="about" class="main-section" style="display:none;">
+        <h2>About EarthLens</h2>
+        <div class="about-beautiful">
+          <div class="about-mission">
+            <h3>Our Mission</h3>
             <p>
-              <b>NASA’s vision for the future:</b> Expand human presence beyond Earth, search for life, understand our origins, and inspire new generations of explorers.
+              <b>Citizen Science Dashboard</b> empowers everyone to explore and understand our planet and universe using
+              NASA's open data.<br>
+              <span class="about-highlight">Track real-time natural events, see your location on a live map, enjoy daily
+                space images, and stay updated with NASA news.</span>
             </p>
           </div>
+          <div class="about-features">
+            <h3>Features</h3>
+            <ul>
+              <li>🌍 Live natural event tracking (wildfires, storms, volcanoes, floods)</li>
+              <li>📍 Your location, temperature, and local time</li>
+              <li>🗺️ Interactive world map</li>
+              <li>📊 Event statistics and charts</li>
+              <li>📰 Latest NASA news</li>
+              <li>🌌 Astronomy Picture of the Day</li>
+              <li>📚 Study NASA facts and resources</li>
+
+            </ul>
+          </div>
+          <div class="about-resources">
+            <h3>Resources</h3>
+            <ul>
+              <li><a href="https://eonet.gsfc.nasa.gov/docs/v3" target="_blank">NASA EONET API</a></li>
+              <li><a href="https://api.nasa.gov/" target="_blank">NASA Open APIs</a></li>
+              <li><a href="https://apod.nasa.gov/apod/astropix.html" target="_blank">Astronomy Picture of the Day</a>
+              </li>
+              <li><a href="https://www.nasa.gov/news/releases/latest/index.html" target="_blank">NASA Newsroom</a></li>
+            </ul>
+          </div>
         </div>
-      </div>
-    </section>
+      </section>
+    </main>
 
-    <!-- Quiz Section -->
-    <section id="quiz" class="main-section" style="display:none;">
-      <h2>NASA Quiz</h2>
-      <div id="quiz-paragraph" class="quiz-paragraph"></div>
-      <form id="quiz-form">
-        <div id="quiz-questions"></div>
-        <button type="submit" id="quiz-submit">Submit Answers</button>
-      </form>
-      <div id="quiz-result"></div>
-    </section>
+    <footer>
+      <p>Made for NASA Space Apps Challenge 2025 ~By Alphabytes</p>
+    </footer>
 
-    <!-- About Section -->
-    <section id="about" class="main-section" style="display:none;">
-      <h2>About EarthLens</h2>
-      <div class="about-beautiful">
-        <div class="about-mission">
-          <h3>Our Mission</h3>
-          <p>
-            <b>Citizen Science Dashboard</b> empowers everyone to explore and understand our planet and universe using NASA's open data.<br>
-            <span class="about-highlight">Track real-time natural events, see your location on a live map, enjoy daily space images, and stay updated with NASA news.</span>
-          </p>
-        </div>
-        <div class="about-features">
-          <h3>Features</h3>
-          <ul>
-            <li>🌍 Live natural event tracking (wildfires, storms, volcanoes, floods)</li>
-            <li>📍 Your location, temperature, and local time</li>
-            <li>🗺️ Interactive world map</li>
-            <li>📊 Event statistics and charts</li>
-            <li>📰 Latest NASA news</li>
-            <li>🌌 Astronomy Picture of the Day</li>
-            <li>📚 Study NASA facts and resources</li>
+    <!-- Leaflet JS -->
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="script.js"></script>
 
-          </ul>
-        </div>
-        <div class="about-resources">
-          <h3>Resources</h3>
-          <ul>
-            <li><a href="https://eonet.gsfc.nasa.gov/docs/v3" target="_blank">NASA EONET API</a></li>
-            <li><a href="https://api.nasa.gov/" target="_blank">NASA Open APIs</a></li>
-            <li><a href="https://apod.nasa.gov/apod/astropix.html" target="_blank">Astronomy Picture of the Day</a></li>
-            <li><a href="https://www.nasa.gov/news/releases/latest/index.html" target="_blank">NASA Newsroom</a></li>
-          </ul>
-        </div>
-      </div>
-    </section>
-  </main>
-
-  <footer>
-    <p>Made for NASA Space Apps Challenge 2025 ~By Alphabytes</p>
-  </footer>
-
-  <!-- Leaflet JS -->
-  <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
-  <!-- Chart.js -->
-  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-  <script src="script.js"></script>
-  
 </body>
 </html>
