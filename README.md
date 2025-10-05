@@ -30,7 +30,6 @@ Built for the NASA Space Apps Challenge 2025.
   - [Breaking News RSS](https://www.nasa.gov/rss/dyn/breaking_news.rss)
 - **OpenAQ** (air quality)
 - **Open-Meteo** (weather, air quality)
-- **SoilGrids** (soil data)
 - **Responsive Design:** Mobile-friendly layout
 
 ## How It Works
@@ -70,7 +69,6 @@ Built for the NASA Space Apps Challenge 2025.
 - [NASA Official Website](https://www.nasa.gov/)
 - [NASA Science](https://science.nasa.gov/)
 - [NASA Missions](https://www.nasa.gov/missions)
-- [NASA Kids' Club](https://www.nasa.gov/kidsclub/index.html)
 
 ## Credits
 

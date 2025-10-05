@@ -936,7 +936,20 @@ a:hover {
   font-size: 0.95em;
   text-decoration: underline;
 }
+.study-section-btn{
+  color: var(--text);
+    text-decoration: none;
+    font-weight: 500;
+    padding: 0.3em 0.7em;
+    border-radius: 4px;
+    cursor: pointer;
+    color: rgb(252, 250, 250);
+    background-color: rgba(108, 102, 102, 0.752);
+}
+.study-section-btn:hover{
+    background: linear-gradient(to right, var(--accent), var(--accent2));
 
+}
 .study-content {
   display: flex;
   flex-wrap: wrap;
