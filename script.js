@@ -93,6 +93,7 @@ function renderEvents() {
     const cat = ev.categories[0]?.title || "Other";
     eonetCategories[cat] = (eonetCategories[cat] || 0) + 1;
     const date = ev.geometry[0]?.date ? new Date(ev.geometry[0].date).toLocaleDateString() : '';
+    let eventUrl = ev.link || ev.sources?.[0]?.url || null;
     const card = document.createElement('div');
     card.className = 'event-card';
     card.innerHTML = `
@@ -101,6 +102,7 @@ function renderEvents() {
         <span class="event-category">${cat}</span>
         <span class="event-date">${date}</span>
       </div>
+      ${eventUrl ? `<div><a href="${eventUrl}" target="_blank" style="color:#3ec6e0;text-decoration:underline;font-size:0.98em;">Full Event Details</a></div>` : ''}
     `;
     list.appendChild(card);
   });
